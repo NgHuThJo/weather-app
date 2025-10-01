@@ -1,0 +1,36 @@
+.layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.search-input {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background-color: var(--bgc-unit-button);
+  outline: 1px dashed transparent;
+  transition:
+    outline var(--transition-duration) ease-in-out,
+    outline-offset var(--transition-duration) ease-in-out;
+
+  &:focus-within {
+    outline: 1px dashed white;
+    outline-offset: 4px;
+  }
+
+  img {
+    flex-grow: 0;
+  }
+
+  input {
+    flex-grow: 1;
+    border: none;
+    background-color: inherit;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
