@@ -1,0 +1,18 @@
+.header {
+  display: grid;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.heading {
+  padding-block: 3rem 2rem;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-7);
+  line-height: 1.2;
+  text-align: center;
+}

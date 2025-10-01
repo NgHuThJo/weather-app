@@ -1,0 +1,20 @@
+:root {
+  color-scheme: light dark;
+
+  --neutral-900: #02012c;
+  --neutral-800: #262540;
+  --neutral-700: #302f4a;
+  --neutral-600: #3c3b5e;
+  --neutral-300: #acacb7;
+  --neutral-200: #d4d3d9;
+  --neutral-0: #ffffff;
+
+  --orange-500: #ff820a;
+
+  --blue-500: #4658d9;
+  --blue-700: #2b1b9c;
+
+  --c-root: var(--neutral-0);
+  --bgc-unit-button: var(--neutral-800);
+  --bgc-search-button: var(--blue-500);
+}
