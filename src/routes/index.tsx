@@ -4,7 +4,11 @@ import { Board } from "#frontend/features/board/components/board";
 import { Header } from "#frontend/features/header/components/header";
 import { SearchBar } from "#frontend/features/searchbar/components/searchbar";
 import { fetchData } from "#frontend/lib/client";
-import type { Unpack, WeatherData } from "#frontend/types/custom/custom";
+import type {
+  DailyWeather,
+  HourlyWeather,
+  WeatherData,
+} from "#frontend/types/custom/custom";
 
 const baseWeatherParamsInMetric = {
   latitude: 52.52,
@@ -93,12 +97,15 @@ export const Route = createFileRoute("/")({
             daily: [...Array(metric.daily.time.length)].map((_, i) => {
               const temp: Partial<
                 Record<
-                  string,
-                  Unpack<(typeof metricDaily)[keyof typeof metricDaily]>
+                  keyof DailyWeather,
+                  DailyWeather[keyof DailyWeather][number]
                 >
               > = {};
 
-              for (const [key, value] of Object.entries(metricDaily)) {
+              for (const [key, value] of Object.entries(metricDaily) as [
+                keyof DailyWeather,
+                DailyWeather[keyof DailyWeather],
+              ][]) {
                 temp[key] = value[i];
               }
 
@@ -108,12 +115,15 @@ export const Route = createFileRoute("/")({
             hourly: [...Array(metric.hourly.time.length)].map((_, i) => {
               const temp: Partial<
                 Record<
-                  string,
-                  Unpack<(typeof metricHourly)[keyof typeof metricHourly]>
+                  keyof HourlyWeather,
+                  HourlyWeather[keyof HourlyWeather][number]
                 >
               > = {};
 
-              for (const [key, value] of Object.entries(metricHourly)) {
+              for (const [key, value] of Object.entries(metricHourly) as [
+                keyof HourlyWeather,
+                HourlyWeather[keyof HourlyWeather],
+              ][]) {
                 temp[key] = value[i];
               }
 
@@ -128,12 +138,15 @@ export const Route = createFileRoute("/")({
             daily: [...Array(imperial.daily.time.length)].map((_, i) => {
               const temp: Partial<
                 Record<
-                  string,
-                  Unpack<(typeof imperialDaily)[keyof typeof imperialDaily]>
+                  keyof DailyWeather,
+                  DailyWeather[keyof DailyWeather][number]
                 >
               > = {};
 
-              for (const [key, value] of Object.entries(imperialDaily)) {
+              for (const [key, value] of Object.entries(imperialDaily) as [
+                keyof DailyWeather,
+                DailyWeather[keyof DailyWeather],
+              ][]) {
                 temp[key] = value[i];
               }
 
@@ -143,12 +156,15 @@ export const Route = createFileRoute("/")({
             hourly: [...Array(imperial.hourly.time.length)].map((_, i) => {
               const temp: Partial<
                 Record<
-                  string,
-                  Unpack<(typeof imperialHourly)[keyof typeof imperialHourly]>
+                  keyof HourlyWeather,
+                  HourlyWeather[keyof HourlyWeather][number]
                 >
               > = {};
 
-              for (const [key, value] of Object.entries(imperialHourly)) {
+              for (const [key, value] of Object.entries(imperialHourly) as [
+                keyof HourlyWeather,
+                HourlyWeather[keyof HourlyWeather],
+              ][]) {
                 temp[key] = value[i];
               }
 
@@ -160,7 +176,7 @@ export const Route = createFileRoute("/")({
 
         console.log(projectedData);
 
-        return { metric, imperial };
+        return projectedData;
       },
     }),
 });
