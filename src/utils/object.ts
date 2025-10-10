@@ -15,3 +15,7 @@ export function formDataToObject(formData: FormData) {
 
   return convertedFormData;
 }
+
+export function assignValue<T, K extends keyof T>(obj: T, key: K, value: T[K]) {
+  return (obj[key] = value);
+}

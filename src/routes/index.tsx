@@ -9,6 +9,7 @@ import type {
   HourlyWeather,
   WeatherData,
 } from "#frontend/types/custom/custom";
+import { assignValue } from "#frontend/utils/object";
 
 const baseWeatherParamsInMetric = {
   latitude: 52.52,
@@ -95,36 +96,41 @@ export const Route = createFileRoute("/")({
             current: metric.current,
             current_units: metric.current_units,
             daily: [...Array(metric.daily.time.length)].map((_, i) => {
-              const temp: Partial<
-                Record<
-                  keyof DailyWeather,
-                  DailyWeather[keyof DailyWeather][number]
-                >
-              > = {};
+              const temp = {} as {
+                [K in keyof DailyWeather]: DailyWeather[K][number];
+              };
 
-              for (const [key, value] of Object.entries(metricDaily) as [
-                keyof DailyWeather,
-                DailyWeather[keyof DailyWeather],
-              ][]) {
-                temp[key] = value[i];
+              for (const key of Object.keys(
+                metricDaily,
+              ) as (keyof DailyWeather)[]) {
+                if (
+                  !(i in metricDaily[key]) ||
+                  metricDaily[key][i] === undefined
+                ) {
+                  throw new Error("Index does not exist");
+                }
+
+                assignValue(temp, key, metricDaily[key][i]);
               }
-
               return temp;
             }),
             daily_units: metric.current_units,
             hourly: [...Array(metric.hourly.time.length)].map((_, i) => {
-              const temp: Partial<
-                Record<
-                  keyof HourlyWeather,
-                  HourlyWeather[keyof HourlyWeather][number]
-                >
-              > = {};
+              const temp = {} as {
+                [K in keyof HourlyWeather]: HourlyWeather[K][number];
+              };
 
-              for (const [key, value] of Object.entries(metricHourly) as [
-                keyof HourlyWeather,
-                HourlyWeather[keyof HourlyWeather],
-              ][]) {
-                temp[key] = value[i];
+              for (const key of Object.keys(
+                metricHourly,
+              ) as (keyof HourlyWeather)[]) {
+                if (
+                  !(i in metricHourly[key]) ||
+                  metricHourly[key][i] === undefined
+                ) {
+                  throw new Error("Index does not exist");
+                }
+
+                assignValue(temp, key, metricHourly[key][i]);
               }
 
               return temp;
@@ -136,36 +142,42 @@ export const Route = createFileRoute("/")({
             current: imperial.current,
             current_units: imperial.current_units,
             daily: [...Array(imperial.daily.time.length)].map((_, i) => {
-              const temp: Partial<
-                Record<
-                  keyof DailyWeather,
-                  DailyWeather[keyof DailyWeather][number]
-                >
-              > = {};
+              const temp = {} as {
+                [K in keyof DailyWeather]: DailyWeather[K][number];
+              };
 
-              for (const [key, value] of Object.entries(imperialDaily) as [
-                keyof DailyWeather,
-                DailyWeather[keyof DailyWeather],
-              ][]) {
-                temp[key] = value[i];
+              for (const key of Object.keys(
+                imperialDaily,
+              ) as (keyof DailyWeather)[]) {
+                if (
+                  !(i in imperialDaily[key]) ||
+                  imperialDaily[key][i] === undefined
+                ) {
+                  throw new Error("Index does not exist");
+                }
+
+                assignValue(temp, key, imperialDaily[key][i]);
               }
 
               return temp;
             }),
             daily_units: imperial.current_units,
             hourly: [...Array(imperial.hourly.time.length)].map((_, i) => {
-              const temp: Partial<
-                Record<
-                  keyof HourlyWeather,
-                  HourlyWeather[keyof HourlyWeather][number]
-                >
-              > = {};
+              const temp = {} as {
+                [K in keyof HourlyWeather]: HourlyWeather[K][number];
+              };
 
-              for (const [key, value] of Object.entries(imperialHourly) as [
-                keyof HourlyWeather,
-                HourlyWeather[keyof HourlyWeather],
-              ][]) {
-                temp[key] = value[i];
+              for (const key of Object.keys(
+                imperialHourly,
+              ) as (keyof HourlyWeather)[]) {
+                if (
+                  !(i in imperialHourly[key]) ||
+                  imperialHourly[key][i] === undefined
+                ) {
+                  throw new Error("Index does not exist");
+                }
+
+                assignValue(temp, key, imperialHourly[key][i]);
               }
 
               return temp;
