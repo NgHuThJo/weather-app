@@ -7,8 +7,8 @@ import {
   icon_dropdown,
   icon_drizzle,
 } from "#frontend/assets/images";
-import { Image } from "#frontend/components/primitives/image";
-import { cn } from "#frontend/lib/utils";
+import { Image } from "#frontend/shared/primitives/image";
+import { cn } from "#frontend/shared/utils/cn";
 
 function DropdownMenu({
   ...props

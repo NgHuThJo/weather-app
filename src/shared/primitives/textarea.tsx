@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./textarea.module.css";
-import { cn } from "#frontend/lib/utils";
+import { cn } from "#frontend/shared/utils/cn";
 
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (

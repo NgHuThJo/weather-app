@@ -4,7 +4,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { z } from "zod";
 import { routeTree } from "#frontend/routeTree.gen";
-import { CapitalizeFirstLetter } from "#frontend/utils/string";
+import { CapitalizeFirstLetter } from "#frontend/shared/utils/string";
 import "#frontend/assets/styles";
 
 z.setErrorMap((iss, ctx) => {

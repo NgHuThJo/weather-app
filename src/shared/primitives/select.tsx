@@ -7,7 +7,7 @@ import {
   ChevronUp,
 } from "#frontend/components/ui/icon";
 
-import { cn } from "#frontend/lib/utils";
+import { cn } from "#frontend/shared/utils/cn";
 
 function Select({
   ...props
