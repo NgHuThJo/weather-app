@@ -3,14 +3,14 @@ import styles from "./index.module.css";
 import { Board } from "#frontend/features/board/components/board";
 import { Header } from "#frontend/features/header/components/header";
 import { SearchBar } from "#frontend/features/searchbar/components/searchbar";
-import { fetchData } from "#frontend/lib/client";
-import { UnitStoreProvider } from "#frontend/store/unit";
+import { fetchData } from "#frontend/shared/api/client";
+import { UnitStoreProvider } from "#frontend/shared/store/unit";
 import type {
   DailyWeather,
   HourlyWeather,
   WeatherData,
-} from "#frontend/types/custom/custom";
-import { assignValue } from "#frontend/utils/object";
+} from "#frontend/shared/types/weather";
+import { assignValue } from "#frontend/shared/utils/object";
 
 const baseWeatherParamsInMetric = {
   latitude: 52.52,

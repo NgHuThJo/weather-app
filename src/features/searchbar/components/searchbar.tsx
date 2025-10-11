@@ -1,7 +1,7 @@
 import styles from "./searchbar.module.css";
 import { icon_search } from "#frontend/assets/images";
-import { Button } from "#frontend/components/primitives/button";
-import { Image } from "#frontend/components/primitives/image";
+import { Button } from "#frontend/shared/primitives/button";
+import { Image } from "#frontend/shared/primitives/image";
 
 export function SearchBar() {
   return (

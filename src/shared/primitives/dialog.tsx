@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { XIcon } from "lucide-react";
 import * as React from "react";
 import styles from "./dialog.module.css";
-import { cn } from "#frontend/lib/utils";
+import { cn } from "#frontend/shared/utils/cn";
 
 const dialogTitleVariants = cva(styles["dialog-title"], {
   variants: {

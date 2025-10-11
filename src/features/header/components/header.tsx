@@ -1,11 +1,11 @@
 import styles from "./header.module.css";
 import { logo, icon_units, icon_dropdown } from "#frontend/assets/images";
-import { Button } from "#frontend/components/primitives/button";
+import { Button } from "#frontend/shared/primitives/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
-} from "#frontend/components/primitives/dropdown";
-import { Image } from "#frontend/components/primitives/image";
+} from "#frontend/shared/primitives/dropdown";
+import { Image } from "#frontend/shared/primitives/image";
 
 export function Header() {
   return (
