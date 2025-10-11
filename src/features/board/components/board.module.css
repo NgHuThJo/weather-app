@@ -1,0 +1,8 @@
+.stack {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  > img {
+    grid-area: 1 / -1;
+  }
+}

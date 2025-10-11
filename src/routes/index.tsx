@@ -4,6 +4,7 @@ import { Board } from "#frontend/features/board/components/board";
 import { Header } from "#frontend/features/header/components/header";
 import { SearchBar } from "#frontend/features/searchbar/components/searchbar";
 import { fetchData } from "#frontend/lib/client";
+import { UnitStoreProvider } from "#frontend/store/unit";
 import type {
   DailyWeather,
   HourlyWeather,
@@ -42,6 +43,25 @@ const baseWeatherParamsInImperial = {
 };
 
 type BaseWeatherParamsKeys = keyof typeof baseWeatherParamsInMetric;
+
+function transformDailyData(obj: DailyWeather) {
+  const daily = [...Array(obj.time.length)].map((_, i) => {
+    const temp = {} as {
+      [K in keyof DailyWeather]: DailyWeather[K][number];
+    };
+
+    for (const key of Object.keys(obj) as (keyof DailyWeather)[]) {
+      if (!(i in obj[key]) || obj[key][i] === undefined) {
+        throw new Error("Index does not exist");
+      }
+
+      assignValue(temp, key, obj[key][i]);
+    }
+    return temp;
+  });
+
+  return daily;
+}
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -93,6 +113,8 @@ export const Route = createFileRoute("/")({
         const projectedData = {
           metric: {
             ...metric,
+            continent: metric.timezone.split("/")[0],
+            city: metric.timezone.split("/")[1],
             current: metric.current,
             current_units: metric.current_units,
             daily: [...Array(metric.daily.time.length)].map((_, i) => {
@@ -139,6 +161,8 @@ export const Route = createFileRoute("/")({
           },
           imperial: {
             ...imperial,
+            continent: metric.timezone.split("/")[0],
+            city: metric.timezone.split("/")[1],
             current: imperial.current,
             current_units: imperial.current_units,
             daily: [...Array(imperial.daily.time.length)].map((_, i) => {
@@ -196,9 +220,11 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className={styles.layout}>
-      <Header />
-      <SearchBar />
-      <Board />
+      <UnitStoreProvider>
+        <Header />
+        <SearchBar />
+        <Board />
+      </UnitStoreProvider>
     </main>
   );
 }
