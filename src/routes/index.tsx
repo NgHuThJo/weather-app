@@ -63,6 +63,26 @@ function transformDailyData(obj: DailyWeather) {
   return daily;
 }
 
+function transformHourlyData(obj: HourlyWeather) {
+  const hourly = [...Array(obj.time.length)].map((_, i) => {
+    const temp = {} as {
+      [K in keyof HourlyWeather]: HourlyWeather[K][number];
+    };
+
+    for (const key of Object.keys(obj) as (keyof HourlyWeather)[]) {
+      if (!(i in obj[key]) || obj[key][i] === undefined) {
+        throw new Error("Index does not exist");
+      }
+
+      assignValue(temp, key, obj[key][i]);
+    }
+
+    return temp;
+  });
+
+  return hourly;
+}
+
 export const Route = createFileRoute("/")({
   component: Index,
   loader: async ({ context: { queryClient } }) =>
@@ -117,47 +137,9 @@ export const Route = createFileRoute("/")({
             city: metric.timezone.split("/")[1],
             current: metric.current,
             current_units: metric.current_units,
-            daily: [...Array(metric.daily.time.length)].map((_, i) => {
-              const temp = {} as {
-                [K in keyof DailyWeather]: DailyWeather[K][number];
-              };
-
-              for (const key of Object.keys(
-                metricDaily,
-              ) as (keyof DailyWeather)[]) {
-                if (
-                  !(i in metricDaily[key]) ||
-                  metricDaily[key][i] === undefined
-                ) {
-                  throw new Error("Index does not exist");
-                }
-
-                assignValue(temp, key, metricDaily[key][i]);
-              }
-              return temp;
-            }),
+            daily: transformDailyData(metricDaily),
             daily_units: metric.current_units,
-            hourly: [...Array(metric.hourly.time.length)].map((_, i) => {
-              const temp = {} as {
-                [K in keyof HourlyWeather]: HourlyWeather[K][number];
-              };
-
-              for (const key of Object.keys(
-                metricHourly,
-              ) as (keyof HourlyWeather)[]) {
-                if (
-                  !(i in metricHourly[key]) ||
-                  metricHourly[key][i] === undefined
-                ) {
-                  throw new Error("Index does not exist");
-                }
-
-                assignValue(temp, key, metricHourly[key][i]);
-              }
-
-              return temp;
-            }),
-            hourly_units: metric.current_units,
+            hourly: transformHourlyData(metricHourly),
           },
           imperial: {
             ...imperial,
@@ -165,47 +147,9 @@ export const Route = createFileRoute("/")({
             city: metric.timezone.split("/")[1],
             current: imperial.current,
             current_units: imperial.current_units,
-            daily: [...Array(imperial.daily.time.length)].map((_, i) => {
-              const temp = {} as {
-                [K in keyof DailyWeather]: DailyWeather[K][number];
-              };
-
-              for (const key of Object.keys(
-                imperialDaily,
-              ) as (keyof DailyWeather)[]) {
-                if (
-                  !(i in imperialDaily[key]) ||
-                  imperialDaily[key][i] === undefined
-                ) {
-                  throw new Error("Index does not exist");
-                }
-
-                assignValue(temp, key, imperialDaily[key][i]);
-              }
-
-              return temp;
-            }),
+            daily: transformDailyData(imperialDaily),
             daily_units: imperial.current_units,
-            hourly: [...Array(imperial.hourly.time.length)].map((_, i) => {
-              const temp = {} as {
-                [K in keyof HourlyWeather]: HourlyWeather[K][number];
-              };
-
-              for (const key of Object.keys(
-                imperialHourly,
-              ) as (keyof HourlyWeather)[]) {
-                if (
-                  !(i in imperialHourly[key]) ||
-                  imperialHourly[key][i] === undefined
-                ) {
-                  throw new Error("Index does not exist");
-                }
-
-                assignValue(temp, key, imperialHourly[key][i]);
-              }
-
-              return temp;
-            }),
+            hourly: transformHourlyData(imperialHourly),
             hourly_units: imperial.current_units,
           },
         };
