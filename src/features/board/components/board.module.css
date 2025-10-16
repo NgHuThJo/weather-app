@@ -1,8 +1,28 @@
+.board {
+  grid-column: breakout-start / breakout-end;
+}
+
 .stack {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
 
-  > img {
-    grid-area: 1 / -1;
+  > * {
+    grid-area: 1 / 1 / -1 / -1;
   }
+}
+
+.current {
+  display: grid;
+  grid-template-columns: [left-start] auto [left-end right-start] auto [right-end];
+  align-items: center;
+}
+
+.left {
+  grid-column: left-start / left-end;
+  padding: 1rem;
+}
+.right {
+  grid-column: right-start / right-end;
+  justify-self: end;
+  padding: 1rem;
 }

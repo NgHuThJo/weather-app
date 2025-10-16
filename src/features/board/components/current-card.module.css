@@ -1,0 +1,12 @@
+.layout {
+  padding: 1.25rem;
+  background-color: var(--bgc-current-card);
+
+  h3 {
+    color: var(--c-description-current-card);
+  }
+
+  span {
+    color: var(--c-value-current-card);
+  }
+}

@@ -1,5 +1,8 @@
 .header {
   display: grid;
+  grid-template-columns: subgrid;
+  grid-column: breakout-start / breakout-end;
+  align-items: center;
 }
 
 .header-top {
@@ -7,12 +10,25 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  grid-row: 1 / 2;
+  grid-column: 1 / -1;
 }
 
 .heading {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-row: 2 / 3;
+  grid-column: content-start / content-end;
   padding-block: 3rem 2rem;
   font-weight: var(--fw-bold);
   font-size: var(--fs-7);
   line-height: 1.2;
   text-align: center;
+}
+
+.header-bottom {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-row: 3 / 4;
+  grid-column: content-start / content-end;
 }

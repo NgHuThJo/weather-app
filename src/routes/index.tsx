@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import styles from "./index.module.css";
 import { Board } from "#frontend/features/board/components/board";
 import { Header } from "#frontend/features/header/components/header";
-import { SearchBar } from "#frontend/features/searchbar/components/searchbar";
 import { fetchData } from "#frontend/shared/api/client";
 import { UnitStoreProvider } from "#frontend/shared/store/unit";
 import type {
@@ -31,6 +30,7 @@ const baseWeatherParamsInMetric = {
     "apparent_temperature",
     "weather_code",
     "wind_speed_10m",
+    "is_day",
   ],
   timezone: "auto",
 };
@@ -154,8 +154,6 @@ export const Route = createFileRoute("/")({
           },
         };
 
-        console.log(projectedData);
-
         return projectedData;
       },
     }),
@@ -166,7 +164,6 @@ function Index() {
     <main className={styles.layout}>
       <UnitStoreProvider>
         <Header />
-        <SearchBar />
         <Board />
       </UnitStoreProvider>
     </main>

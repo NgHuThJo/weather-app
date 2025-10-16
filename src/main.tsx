@@ -1,4 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
@@ -39,6 +43,13 @@ const queryClient = new QueryClient({
       throwOnError: true,
     },
   },
+  queryCache: new QueryCache({
+    onError(error, query) {
+      if (query.state.data !== undefined) {
+        console.error(`Something went wrong: ${error.message}`);
+      }
+    },
+  }),
 });
 const router = createRouter({
   routeTree,
