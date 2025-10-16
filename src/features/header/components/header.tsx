@@ -1,5 +1,6 @@
 import styles from "./header.module.css";
 import { logo, icon_units, icon_dropdown } from "#frontend/assets/images";
+import { SearchBar } from "#frontend/features/searchbar/components/searchbar";
 import { Button } from "#frontend/shared/primitives/button";
 import {
   DropdownMenu,
@@ -23,6 +24,9 @@ export function Header() {
         </DropdownMenu>
       </div>
       <h1 className={styles.heading}>How's the sky looking today?</h1>
+      <div className={styles["header-bottom"]}>
+        <SearchBar />
+      </div>
     </header>
   );
 }

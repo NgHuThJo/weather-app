@@ -1,3 +1,5 @@
+import type { WeatherCodeNumber, IsDay } from "#frontend/shared/app/icons";
+
 // Open Meteo types
 export interface WeatherResponse {
   metric: WeatherData;
@@ -29,6 +31,7 @@ export interface CurrentUnits {
   apparent_temperature: string; // "°C" or "°F"
   weather_code: string; // "wmocode"
   wind_speed_10m: string; // "km/h" or "mp/h"
+  is_day: string; // ""
 }
 
 export interface CurrentWeather {
@@ -38,8 +41,9 @@ export interface CurrentWeather {
   precipitation: number;
   relative_humidity_2m: number;
   apparent_temperature: number;
-  weather_code: number;
+  weather_code: WeatherCodeNumber;
   wind_speed_10m: number;
+  is_day: IsDay;
 }
 
 export interface HourlyUnits {
@@ -59,7 +63,7 @@ export interface HourlyWeather {
   wind_speed_10m: number[];
   relative_humidity_2m: number[];
   precipitation: number[];
-  weather_code: number[];
+  weather_code: WeatherCodeNumber[];
 }
 
 export interface DailyUnits {
@@ -73,5 +77,5 @@ export interface DailyWeather {
   time: string[];
   temperature_2m_max: number[];
   temperature_2m_min: number[];
-  weather_code: number[];
+  weather_code: WeatherCodeNumber[];
 }
