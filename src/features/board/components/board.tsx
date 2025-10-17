@@ -19,7 +19,7 @@ export function Board() {
   const unitData =
     currentUnit === "metric" ? weatherData.metric : weatherData.imperial;
 
-  const current = { data: unitData.current, unit: unitData.current_units };
+  const current = { data: unitData.current, units: unitData.current_units };
 
   const currentDataArray = mapCurrentWeatherForUI(current);
 
