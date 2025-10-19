@@ -54,6 +54,7 @@ export interface HourlyUnits {
   relative_humidity_2m: string;
   precipitation: string;
   weather_code: string;
+  is_day: string;
 }
 
 export interface HourlyWeather {
@@ -64,6 +65,7 @@ export interface HourlyWeather {
   relative_humidity_2m: number[];
   precipitation: number[];
   weather_code: WeatherCodeNumber[];
+  is_day: IsDay[]; // 1 if day, 0 if night
 }
 
 export interface DailyUnits {

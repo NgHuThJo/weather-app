@@ -1,4 +1,4 @@
-import { mapCurrentWeatherForUI } from "#frontend/features/board/model/mapping";
+import { mapCurrentWeatherToUI } from "#frontend/features/board/model/mapping";
 import type {
   CurrentUnits,
   CurrentWeather,
@@ -30,7 +30,7 @@ export const sampleUnits = {
 
 describe("mapCurrentWeatherForUI", () => {
   it("should return the correct mapped object", () => {
-    const mappedData = mapCurrentWeatherForUI({
+    const mappedData = mapCurrentWeatherToUI({
       data: sampleData,
       units: sampleUnits,
     });
@@ -46,3 +46,16 @@ describe("mapCurrentWeatherForUI", () => {
     });
   });
 });
+
+// describe("mapDailyWeatherForUI", () => {
+//   it("should return the correct mapped object", () => {
+//     const mappedData = mapDailyWeatherToUI({
+//       data: sampleData,
+//       units: sampleUnits,
+//     });
+
+//     mappedData.forEach(([_, obj]) => {
+//       expect(obj).to
+//     });
+//   });
+// });

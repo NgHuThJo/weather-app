@@ -287,6 +287,9 @@ const weatherIcons = {
   },
 };
 
-export function getWeatherIcon(weatherCode: WeatherCodeNumber, isDay: IsDay) {
+export function getWeatherIcon(
+  weatherCode: WeatherCodeNumber,
+  isDay: IsDay = 1,
+) {
   return weatherIcons[weatherCode][isDay ? "day" : "night"];
 }

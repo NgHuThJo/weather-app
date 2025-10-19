@@ -22,6 +22,7 @@ const baseWeatherParamsInMetric = {
     "relative_humidity_2m",
     "precipitation",
     "weather_code",
+    "is_day",
   ],
   current: [
     "temperature_2m",
@@ -138,8 +139,9 @@ export const Route = createFileRoute("/")({
             current: metric.current,
             current_units: metric.current_units,
             daily: transformDailyData(metricDaily),
-            daily_units: metric.current_units,
+            daily_units: metric.daily_units,
             hourly: transformHourlyData(metricHourly),
+            hourly_units: metric.hourly_units,
           },
           imperial: {
             ...imperial,
@@ -148,7 +150,7 @@ export const Route = createFileRoute("/")({
             current: imperial.current,
             current_units: imperial.current_units,
             daily: transformDailyData(imperialDaily),
-            daily_units: imperial.current_units,
+            daily_units: imperial.daily_units,
             hourly: transformHourlyData(imperialHourly),
             hourly_units: imperial.current_units,
           },

@@ -2,7 +2,13 @@ import { getRouteApi } from "@tanstack/react-router";
 import styles from "./board.module.css";
 import { bg_today_large, bg_today_small } from "#frontend/assets/images";
 import { CurrentCard } from "#frontend/features/board/components/current-card";
-import { mapCurrentWeatherForUI } from "#frontend/features/board/model/mapping";
+import { HourlyBoard } from "#frontend/features/board/components/hourly-board";
+import {
+  mapCurrentWeatherToUI,
+  mapDailyWeatherToUI,
+  mapHourlyWeatherToUI,
+} from "#frontend/features/board/model/mapping";
+import { MAX_HOURLY_ENTRIES } from "#frontend/shared/app/constants";
 import {
   formatWeatherDateForUI,
   formatWeatherValue,
@@ -20,8 +26,15 @@ export function Board() {
     currentUnit === "metric" ? weatherData.metric : weatherData.imperial;
 
   const current = { data: unitData.current, units: unitData.current_units };
+  const daily = { data: unitData.daily, units: unitData.daily_units };
+  const hourly = { data: unitData.hourly, units: unitData.hourly_units };
 
-  const currentDataArray = mapCurrentWeatherForUI(current);
+  const currentDataArray = mapCurrentWeatherToUI(current);
+  const dailyDataArray = mapDailyWeatherToUI(daily);
+  const hourlyDataArray = mapHourlyWeatherToUI(hourly).slice(
+    0,
+    MAX_HOURLY_ENTRIES,
+  );
 
   return (
     <div className={styles.board}>
@@ -68,6 +81,32 @@ export function Board() {
           ))}
         </div>
       </div>
+      <div>
+        <h2>Daily forecast</h2>
+        <ul>
+          {dailyDataArray.map(
+            (
+              {
+                day,
+                max: [maxTemp, maxUnit],
+                min: [minTemp, minUnit],
+                weather_code,
+              },
+              index,
+            ) => (
+              <li key={index}>
+                <h3>{day}</h3>
+                <Image src={getWeatherIcon(weather_code).image}></Image>
+                <div>
+                  <span>{`${maxTemp} ${maxUnit}`}</span>
+                  <span>{`${minTemp} ${minUnit}`}</span>
+                </div>
+              </li>
+            ),
+          )}
+        </ul>
+      </div>
+      <HourlyBoard data={hourlyDataArray} />
     </div>
   );
 }
