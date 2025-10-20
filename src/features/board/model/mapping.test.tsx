@@ -2,7 +2,7 @@ import { mapCurrentWeatherToUI } from "#frontend/features/board/model/mapping";
 import type {
   CurrentUnits,
   CurrentWeather,
-} from "#frontend/shared/types/weather";
+} from "#frontend/shared/types/schema";
 
 export const sampleData = {
   time: "2025-10-16T12:00:00Z",
