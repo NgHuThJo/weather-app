@@ -8,7 +8,8 @@ import type {
   DailyWeather,
   HourlyWeather,
   WeatherData,
-} from "#frontend/shared/types/weather";
+} from "#frontend/shared/types/schema";
+import { weatherSchema } from "#frontend/shared/types/schema";
 import { assignValue } from "#frontend/shared/utils/object";
 
 const baseWeatherParamsInMetric = {
@@ -125,6 +126,13 @@ export const Route = createFileRoute("/")({
               `${url}?${new URLSearchParams(imperialQueryString).toString()}`,
             ),
           ]);
+
+        const validatedMetricData = weatherSchema.safeParse(metric);
+        const validatedImperialData = weatherSchema.safeParse(imperial);
+
+        if (!validatedMetricData.success || !validatedImperialData.success) {
+          throw new Error("Validation error");
+        }
 
         const metricDaily = metric.daily;
         const metricHourly = metric.hourly;

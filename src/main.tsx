@@ -8,33 +8,36 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { z } from "zod";
 import { routeTree } from "#frontend/routeTree.gen";
-import { CapitalizeFirstLetter } from "#frontend/shared/utils/string";
+import { capitalizeFirstLetter } from "#frontend/shared/utils/string";
 import "#frontend/assets/styles";
 
-z.setErrorMap((iss, ctx) => {
-  const formattedPath = iss.path.map((value) => {
-    if (typeof value === "number") {
-      return `[${value}]`;
+z.config({
+  customError: (issue) => {
+    const formattedPath = issue?.path?.map((value) => {
+      if (typeof value === "number" || typeof value === "symbol") {
+        return `[${String(value)}]`;
+      }
+
+      return capitalizeFirstLetter(value);
+    });
+
+    // If formattedPath is undefined, return undefined to fall back to the default message
+    if (formattedPath === undefined) {
+      return undefined;
     }
 
-    return CapitalizeFirstLetter(value);
-  });
+    if (issue.code === "too_small") {
+      return {
+        message: `${formattedPath.join("")} is too small, minimum is ${issue.minimum}`,
+      };
+    }
 
-  if (iss.code === "too_small") {
-    return {
-      message: `${formattedPath.join("")} is too small, minimum is ${iss.minimum}`,
-    };
-  }
-
-  if (iss.code === "too_big") {
-    return {
-      message: `${formattedPath.join("")} is too big, maximum is ${iss.maximum}`,
-    };
-  }
-
-  return {
-    message: ctx.defaultError,
-  };
+    if (issue.code === "too_big") {
+      return {
+        message: `${formattedPath.join("")} is too big, maximum is ${issue.maximum}`,
+      };
+    }
+  },
 });
 
 const queryClient = new QueryClient({
