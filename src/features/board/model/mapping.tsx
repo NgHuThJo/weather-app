@@ -3,9 +3,9 @@ import type {
   CurrentUnits,
   CurrentWeather,
   DailyUnits,
-  DailyWeather,
+  DailyWeatherValues,
   HourlyUnits,
-  HourlyWeather,
+  HourlyWeatherValues,
 } from "#frontend/shared/types/schema";
 import { getDayFromDate, getHourFromDate } from "#frontend/shared/utils/intl";
 
@@ -14,17 +14,9 @@ type CurrentWeatherMapper = {
   units: CurrentUnits;
 };
 
-type DailyWeatherValues = {
-  [K in keyof DailyWeather]: DailyWeather[K][number];
-};
-
 type DailyWeatherMapper = {
   data: DailyWeatherValues[];
   units: DailyUnits;
-};
-
-type HourlyWeatherValues = {
-  [K in keyof HourlyWeather]: HourlyWeather[K][number];
 };
 
 type HourlyWeatherMapper = {

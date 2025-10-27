@@ -6,35 +6,42 @@ import { HourlyBoard } from "#frontend/features/board/components/hourly-board";
 import {
   mapCurrentWeatherToUI,
   mapDailyWeatherToUI,
-  mapHourlyWeatherToUI,
 } from "#frontend/features/board/model/mapping";
-import { MAX_HOURLY_ENTRIES } from "#frontend/shared/app/constants";
 import {
   formatWeatherDateForUI,
   formatWeatherValue,
 } from "#frontend/shared/app/formatting";
 import { getWeatherIcon } from "#frontend/shared/app/icons";
 import { Image } from "#frontend/shared/primitives/image";
-import { useCurrentUnitId } from "#frontend/shared/store/unit";
+import { useCurrentSystem, useCurrentUnits } from "#frontend/shared/store/unit";
 
 export function Board() {
   const routeApi = getRouteApi("/");
-  const currentUnit = useCurrentUnitId();
+  const currentSystem = useCurrentSystem();
+  const currentUnits = useCurrentUnits();
   const weatherData = routeApi.useLoaderData();
 
   const unitData =
-    currentUnit === "metric" ? weatherData.metric : weatherData.imperial;
+    currentSystem === "metric" ? weatherData.metric : weatherData.imperial;
 
-  const current = { data: unitData.current, units: unitData.current_units };
-  const daily = { data: unitData.daily, units: unitData.daily_units };
+  const currentUnit = {
+    ...unitData.current_units,
+    temperature_2m: currentUnits.temperature,
+    wind_speed: currentUnits.wind_speed,
+    precipitation: currentUnits.precipitation,
+  };
+  const dailyUnit = {
+    ...unitData.daily_units,
+    temperature_max: currentUnits.temperature,
+    temperature_min: currentUnits.temperature,
+  };
+
+  const current = { data: unitData.current, units: currentUnit };
+  const daily = { data: unitData.daily, units: dailyUnit };
   const hourly = { data: unitData.hourly, units: unitData.hourly_units };
 
   const currentDataArray = mapCurrentWeatherToUI(current);
   const dailyDataArray = mapDailyWeatherToUI(daily);
-  const hourlyDataArray = mapHourlyWeatherToUI(hourly).slice(
-    0,
-    MAX_HOURLY_ENTRIES,
-  );
 
   return (
     <div className={styles.board}>
@@ -106,7 +113,7 @@ export function Board() {
           )}
         </ul>
       </div>
-      <HourlyBoard data={hourlyDataArray} />
+      <HourlyBoard data={hourly.data} units={hourly.units} />
     </div>
   );
 }

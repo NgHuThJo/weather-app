@@ -1,38 +1,35 @@
-import { mapCurrentWeatherToUI } from "#frontend/features/board/model/mapping";
-import type {
-  CurrentUnits,
-  CurrentWeather,
+import { zocker } from "zocker";
+import {
+  mapCurrentWeatherToUI,
+  mapDailyWeatherToUI,
+  mapHourlyWeatherToUI,
+} from "#frontend/features/board/model/mapping";
+
+import {
+  currentUnitsSchema,
+  currentWeatherSchema,
+  dailyUnitsSchema,
+  dailyWeatherValuesSchema,
+  hourlyUnitsSchema,
+  hourlyWeatherValuesSchema,
 } from "#frontend/shared/types/schema";
 
-export const sampleData = {
-  time: "2025-10-16T12:00:00Z",
-  interval: 3600,
-  temperature_2m: 18.5,
-  precipitation: 0.2,
-  relative_humidity_2m: 65,
-  apparent_temperature: 18,
-  weather_code: 0,
-  wind_speed_10m: 10,
-  is_day: 0,
-} satisfies CurrentWeather;
-
-export const sampleUnits = {
-  time: "iso8601",
-  interval: "seconds",
-  temperature_2m: "°C",
-  precipitation: "mm",
-  relative_humidity_2m: "%",
-  apparent_temperature: "°C",
-  weather_code: "wmocode",
-  wind_speed_10m: "km/h",
-  is_day: "",
-} satisfies CurrentUnits;
+const currentWeatherMockData = zocker(currentWeatherSchema).generate();
+const currentUnitsMockData = zocker(currentUnitsSchema).generate();
+const dailyWeatherMockData = zocker(dailyWeatherValuesSchema)
+  .supply(dailyWeatherValuesSchema.shape.time, "2025-10-21T00:00:00Z")
+  .generateMany(2);
+const dailyUnitsMockData = zocker(dailyUnitsSchema).generate();
+const hourlyWeatherMockData = zocker(hourlyWeatherValuesSchema)
+  .supply(hourlyWeatherValuesSchema.shape.time, "2025-10-21T00:00:00Z")
+  .generateMany(2);
+const hourlyUnitsMockData = zocker(hourlyUnitsSchema).generate();
 
 describe("mapCurrentWeatherForUI", () => {
   it("should return the correct mapped object", () => {
     const mappedData = mapCurrentWeatherToUI({
-      data: sampleData,
-      units: sampleUnits,
+      data: currentWeatherMockData,
+      units: currentUnitsMockData,
     });
 
     mappedData.forEach(([_, obj]) => {
@@ -47,15 +44,46 @@ describe("mapCurrentWeatherForUI", () => {
   });
 });
 
-// describe("mapDailyWeatherForUI", () => {
-//   it("should return the correct mapped object", () => {
-//     const mappedData = mapDailyWeatherToUI({
-//       data: sampleData,
-//       units: sampleUnits,
-//     });
+describe("mapDailyWeatherForUI", () => {
+  it("should return the correct mapped object", () => {
+    const mappedData = mapDailyWeatherToUI({
+      data: dailyWeatherMockData,
+      units: dailyUnitsMockData,
+    });
 
-//     mappedData.forEach(([_, obj]) => {
-//       expect(obj).to
-//     });
-//   });
-// });
+    mappedData.forEach((obj) => {
+      expect(obj).toEqual(
+        expect.objectContaining({
+          max: expect.arrayContaining([expect.any(Number), expect.any(String)]),
+          min: expect.arrayContaining([expect.any(Number), expect.any(String)]),
+          day: expect.any(String),
+          weather_code: expect.any(Number),
+        }),
+      );
+    });
+  });
+});
+
+describe("mapHourlyWeatherForUI", () => {
+  it("should return the correct mapped object", () => {
+    const mappedData = mapHourlyWeatherToUI({
+      data: hourlyWeatherMockData,
+      units: hourlyUnitsMockData,
+    });
+
+    mappedData.forEach((obj) => {
+      expect(obj).toEqual(
+        expect.objectContaining({
+          hour: expect.any(String),
+          day: expect.any(String),
+          weather_code: expect.any(Number),
+          temperature: expect.arrayContaining([
+            expect.any(Number),
+            expect.any(String),
+          ]),
+          isDay: expect.toBeOneOf([0, 1]),
+        }),
+      );
+    });
+  });
+});

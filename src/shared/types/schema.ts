@@ -356,6 +356,27 @@ export const weatherSchema = z.object({
   }),
 });
 
+export const dailyWeatherValuesSchema = z.object({
+  time: weatherSchema.shape.daily.shape.time.element,
+  temperature_2m_max:
+    weatherSchema.shape.daily.shape.temperature_2m_max.element,
+  temperature_2m_min:
+    weatherSchema.shape.daily.shape.temperature_2m_min.element,
+  weather_code: weatherSchema.shape.daily.shape.weather_code.element,
+});
+
+export const hourlyWeatherValuesSchema = z.object({
+  time: weatherSchema.shape.hourly.shape.time.element,
+  temperature_2m: weatherSchema.shape.hourly.shape.temperature_2m.element,
+  apparent_temperature:
+    weatherSchema.shape.hourly.shape.apparent_temperature.element,
+  wind_speed_10m: weatherSchema.shape.hourly.shape.wind_speed_10m.element,
+  precipitation: weatherSchema.shape.hourly.shape.precipitation.element,
+  relative_humidity_2m: weatherSchema.shape.hourly.shape.precipitation.element,
+  weather_code: weatherSchema.shape.hourly.shape.weather_code.element,
+  is_day: weatherSchema.shape.hourly.shape.is_day.element,
+});
+
 export const currentWeatherSchema = weatherSchema.shape.current;
 export const currentUnitsSchema = weatherSchema.shape.current_units;
 export const dailyWeatherSchema = weatherSchema.shape.daily;
@@ -372,3 +393,5 @@ export type HourlyUnits = z.infer<typeof hourlyUnitsSchema>;
 export type WeatherData = z.infer<typeof weatherSchema>;
 export type WeatherCodeNumber = ToNumber<WeatherCode>;
 export type IsDay = 0 | 1;
+export type DailyWeatherValues = z.infer<typeof dailyWeatherValuesSchema>;
+export type HourlyWeatherValues = z.infer<typeof hourlyWeatherValuesSchema>;
