@@ -42,7 +42,22 @@ export function Header() {
 
     switch (action) {
       case "celsius": {
-        //
+        break;
+      }
+      case "fahrenheit": {
+        break;
+      }
+      case "km/h": {
+        break;
+      }
+      case "mph": {
+        break;
+      }
+      case "mm": {
+        break;
+      }
+      case "in": {
+        break;
       }
     }
   };
@@ -81,22 +96,26 @@ export function Header() {
             <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
             <DropdownMenuCheckboxItem
               checked={currentUnits.wind_speed === "km/h"}
+              data-action="km/h"
             >
               km/h
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={currentUnits.wind_speed === "mph"}
+              data-action="mph"
             >
               mph
             </DropdownMenuCheckboxItem>
             <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
             <DropdownMenuCheckboxItem
               checked={currentUnits.precipitation === "mm"}
+              data-action="mm"
             >
               Millimeters (mm)
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={currentUnits.precipitation === "in"}
+              data-action="in"
             >
               Inches (in)
             </DropdownMenuCheckboxItem>

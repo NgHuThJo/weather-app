@@ -61,24 +61,23 @@ export function UnitStoreProvider({ children }: UnitStoreProviderProps) {
       currentSystem: "metric",
       currentUnits: metricUnits,
       setCurrentSystem: (system) =>
-        set((prev) => ({
-          ...prev,
+        set(() => ({
           currentSystem: system,
         })),
       setCurrentUnits: (units) =>
         set((prev) => ({
           ...prev,
-          currentUnits: units,
+          ...units,
         })),
       setMetricUnits: () =>
         set((prev) => ({
           ...prev,
-          currentUnits: metricUnits,
+          ...metricUnits,
         })),
       setImperialUnits: () =>
         set((prev) => ({
           ...prev,
-          currentUnits: imperialUnits,
+          ...imperialUnits,
         })),
     })),
   );
