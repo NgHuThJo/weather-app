@@ -21,9 +21,9 @@ type UnitStore = {
   currentSystem: System;
   setCurrentSystem: (system: System) => void;
   currentUnits: Units;
-  setCurrentUnits: (units: Units) => void;
-  setMetricUnits: (units: Metric) => void;
-  setImperialUnits: (units: Imperial) => void;
+  setCurrentUnits: (units: Partial<Units>) => void;
+  setMetricUnits: () => void;
+  setImperialUnits: () => void;
 };
 
 const metricUnits: Metric = {
@@ -65,19 +65,19 @@ export function UnitStoreProvider({ children }: UnitStoreProviderProps) {
           currentSystem: system,
         })),
       setCurrentUnits: (units) =>
-        set((prev) => ({
-          ...prev,
-          ...units,
+        set(({ currentUnits }) => ({
+          currentUnits: {
+            ...currentUnits,
+            ...units,
+          },
         })),
       setMetricUnits: () =>
-        set((prev) => ({
-          ...prev,
-          ...metricUnits,
+        set(() => ({
+          currentUnits: metricUnits,
         })),
       setImperialUnits: () =>
-        set((prev) => ({
-          ...prev,
-          ...imperialUnits,
+        set(() => ({
+          currentUnits: imperialUnits,
         })),
     })),
   );

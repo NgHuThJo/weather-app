@@ -22,7 +22,12 @@ import {
 export function Header() {
   const currentSystem = useCurrentSystem();
   const currentUnits = useCurrentUnits();
-  const setUnits = useUnitStore(
+  const {
+    setCurrentSystem,
+    setCurrentUnits,
+    setImperialUnits,
+    setMetricUnits,
+  } = useUnitStore(
     useShallow((state) => {
       const { currentUnits, currentSystem, ...rest } = state;
 
@@ -30,10 +35,22 @@ export function Header() {
     }),
   );
 
-  const handleClickDelegation = (event: MouseEvent) => {
+  console.log(currentUnits);
+
+  const handleUnitSelection = (event: MouseEvent) => {
     const action = (event.target as HTMLElement)
-      .closest("[data-action")
-      ?.getAttribute("data-action");
+      .closest("[data-action]")
+      ?.getAttribute("data-action") as
+      | "system"
+      | "celsius"
+      | "fahrenheit"
+      | "km/h"
+      | "mph"
+      | "mm"
+      | "in"
+      | null;
+
+    console.log("action", action);
 
     if (!action) {
       console.log("action target not found");
@@ -41,23 +58,43 @@ export function Header() {
     }
 
     switch (action) {
+      case "system": {
+        if (currentSystem === "metric") {
+          setCurrentSystem("imperial");
+          setImperialUnits();
+        } else {
+          setCurrentSystem("metric");
+          setMetricUnits();
+        }
+
+        break;
+      }
       case "celsius": {
+        setCurrentUnits({ temperature: "°C" });
         break;
       }
       case "fahrenheit": {
+        setCurrentUnits({ temperature: "°F" });
         break;
       }
       case "km/h": {
+        setCurrentUnits({ wind_speed: "km/h" });
         break;
       }
       case "mph": {
+        setCurrentUnits({ wind_speed: "mph" });
         break;
       }
       case "mm": {
+        setCurrentUnits({ precipitation: "mm" });
         break;
       }
       case "in": {
+        setCurrentUnits({ precipitation: "in" });
         break;
+      }
+      default: {
+        console.error("Action in dropdown does not match any unit");
       }
     }
   };
@@ -74,10 +111,10 @@ export function Header() {
               <Image src={icon_dropdown} alt="dropdown icon"></Image>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent onClick={handleClickDelegation}>
-            <DropdownMenuItem asChild>
+          <DropdownMenuContent onClick={handleUnitSelection}>
+            <DropdownMenuItem asChild data-action="system">
               <Button>
-                {`Switch to ${currentSystem === "metric" ? "imperial" : currentSystem}`}
+                {`Switch to ${currentSystem === "metric" ? "Imperial" : "Metric"}`}
               </Button>
             </DropdownMenuItem>
             <DropdownMenuLabel>Temperature</DropdownMenuLabel>
