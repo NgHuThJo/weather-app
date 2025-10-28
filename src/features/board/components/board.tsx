@@ -14,6 +14,7 @@ import {
 import { getWeatherIcon } from "#frontend/shared/app/icons";
 import { Image } from "#frontend/shared/primitives/image";
 import { useCurrentSystem, useCurrentUnits } from "#frontend/shared/store/unit";
+import type { CurrentUnits, DailyUnits } from "#frontend/shared/types/schema";
 
 export function Board() {
   const routeApi = getRouteApi("/");
@@ -26,14 +27,21 @@ export function Board() {
 
   const currentUnit = {
     ...unitData.current_units,
-    temperature_2m: currentUnits.temperature,
-    wind_speed: currentUnits.wind_speed,
+    apparent_temperature: currentUnits.temperature,
+    wind_speed_10m: currentUnits.wind_speed,
     precipitation: currentUnits.precipitation,
+  } satisfies {
+    [K in keyof CurrentUnits]: CurrentUnits[K];
   };
   const dailyUnit = {
     ...unitData.daily_units,
     temperature_max: currentUnits.temperature,
     temperature_min: currentUnits.temperature,
+  } satisfies {
+    [K in keyof DailyUnits]: DailyUnits[K];
+  } & {
+    temperature_max: string;
+    temperature_min: string;
   };
 
   const current = { data: unitData.current, units: currentUnit };
