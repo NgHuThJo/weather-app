@@ -5,6 +5,7 @@ import { icon_search } from "#frontend/assets/images";
 import { fetchData } from "#frontend/shared/api/client";
 import { Button } from "#frontend/shared/primitives/button";
 import { Image } from "#frontend/shared/primitives/image";
+import { geocodingSchema } from "#frontend/shared/types/geocoding";
 
 const geocodingParams = {
   name: "",
@@ -29,10 +30,15 @@ export function SearchBar() {
 
       const data = await fetchData(`${url}?${queryString.toString()}`);
 
-      console.log("data:", data);
+      const validatedData = geocodingSchema.safeParse(data);
 
-      return data;
+      if (!validatedData.success) {
+        throw new Error("Geocoding api schema does not match expectations");
+      }
+
+      return validatedData.data;
     },
+    select: (data) => {},
     enabled: !!searchInput,
   });
 
