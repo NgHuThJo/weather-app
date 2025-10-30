@@ -35,8 +35,6 @@ export function Header() {
     }),
   );
 
-  console.log(currentUnits);
-
   const handleUnitSelection = (event: MouseEvent) => {
     const action = (event.target as HTMLElement)
       .closest("[data-action]")
@@ -49,8 +47,6 @@ export function Header() {
       | "mm"
       | "in"
       | null;
-
-    console.log("action", action);
 
     if (!action) {
       console.log("action target not found");
