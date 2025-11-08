@@ -1,4 +1,4 @@
-import { getRouteApi } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import styles from "./board.module.css";
 import { bg_today_large, bg_today_small } from "#frontend/assets/images";
 import { CurrentCard } from "#frontend/features/board/components/current-card";
@@ -7,23 +7,29 @@ import {
   mapCurrentWeatherToUI,
   mapDailyWeatherToUI,
 } from "#frontend/features/board/model/mapping";
+import { weatherQueryOptions } from "#frontend/shared/api/query-options/weather";
 import {
   formatWeatherDateForUI,
   formatWeatherValue,
 } from "#frontend/shared/app/formatting";
 import { getWeatherIcon } from "#frontend/shared/app/icons";
 import { Image } from "#frontend/shared/primitives/image";
+import { useLocationData } from "#frontend/shared/store/location";
 import { useCurrentSystem, useCurrentUnits } from "#frontend/shared/store/unit";
 import type { CurrentUnits, DailyUnits } from "#frontend/shared/types/schema";
 
 export function Board() {
-  const routeApi = getRouteApi("/");
+  const { latitude, longitude } = useLocationData();
   const currentSystem = useCurrentSystem();
   const currentUnits = useCurrentUnits();
-  const weatherData = routeApi.useLoaderData();
+  const { data: weatherData } = useSuspenseQuery(
+    weatherQueryOptions.location(latitude, longitude),
+  );
 
   const unitData =
     currentSystem === "metric" ? weatherData.metric : weatherData.imperial;
+
+  console.table(weatherData);
 
   const currentUnit = {
     ...unitData.current_units,
@@ -56,17 +62,21 @@ export function Board() {
       <div className={styles.current}>
         <div className={styles.stack}>
           <Image
-            className="bg"
+            className="background"
             src={bg_today_small}
             srcSet={`${bg_today_small} 343w, ${bg_today_large} 800w`}
             sizes="(width < 768px) 343px, 800px"
           />
-          <div className={styles.current}>
-            <div className={styles.left}>
-              <h2>{`${unitData.city}, ${unitData.continent}`}</h2>
-              <p>{`${formatWeatherDateForUI(new Date(unitData.current.time))}`}</p>
+          <div className={styles["image-container"]}>
+            <div className={styles["image-left"]}>
+              <h2
+                className={styles["image-heading"]}
+              >{`${unitData.city}, ${unitData.continent}`}</h2>
+              <p
+                className={styles["image-day"]}
+              >{`${formatWeatherDateForUI(new Date(unitData.current.time))}`}</p>
             </div>
-            <div className={styles.right}>
+            <div className={styles["image-right"]}>
               <Image
                 src={
                   getWeatherIcon(
@@ -74,8 +84,9 @@ export function Board() {
                     unitData.current.is_day,
                   ).image
                 }
+                className="icon-bg"
               ></Image>
-              <p>
+              <p className={styles["image-temperature"]}>
                 {formatWeatherValue(
                   unitData.current.temperature_2m,
                   unitData.current_units.temperature_2m,
@@ -84,7 +95,7 @@ export function Board() {
             </div>
           </div>
         </div>
-        <div>
+        <div className={styles["card-layout"]}>
           {currentDataArray.map(([description, { unit, value, separator }]) => (
             <CurrentCard
               text={description}
@@ -96,9 +107,9 @@ export function Board() {
           ))}
         </div>
       </div>
-      <div>
+      <div className={styles.daily}>
         <h2>Daily forecast</h2>
-        <ul>
+        <ul className={styles["daily-list"]}>
           {dailyDataArray.map(
             (
               {
@@ -109,10 +120,13 @@ export function Board() {
               },
               index,
             ) => (
-              <li key={index}>
-                <h3>{day}</h3>
-                <Image src={getWeatherIcon(weather_code).image}></Image>
-                <div>
+              <li key={index} className={styles["daily-card"]}>
+                <h3 className={styles["daily-heading"]}>{day}</h3>
+                <Image
+                  src={getWeatherIcon(weather_code).image}
+                  className="icon-md"
+                ></Image>
+                <div className={styles["daily-temperature"]}>
                   <span>{`${maxTemp} ${maxUnit}`}</span>
                   <span>{`${minTemp} ${minUnit}`}</span>
                 </div>
@@ -121,7 +135,9 @@ export function Board() {
           )}
         </ul>
       </div>
-      <HourlyBoard data={hourly.data} units={hourly.units} />
+      <div className={styles.hourly}>
+        <HourlyBoard data={hourly.data} units={hourly.units} />
+      </div>
     </div>
   );
 }

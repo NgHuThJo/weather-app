@@ -70,7 +70,7 @@ figcaption {
 
 img {
   display: block;
-  max-width: 100%;
+  max-inline-size: 100%;
 }
 
 ol,
@@ -92,6 +92,7 @@ textarea {
   display: grid;
   height: 100vh;
   min-width: 20rem;
+  line-height: 1.2;
   background-color: var(--c-bg-primary);
 }
 

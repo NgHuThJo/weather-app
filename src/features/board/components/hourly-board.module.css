@@ -1,0 +1,32 @@
+.top-heading {
+  --gap: 1rem;
+
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rcap;
+}
+
+.heading {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-4);
+}
+
+.list {
+  display: grid;
+  gap: var(--gap);
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1rem 0.625rem 0.75rem;
+  border-radius: calc(var(--border-radius-4) * 1px);
+  background-color: var(--bgc-hourly-card);
+
+  > div:first-of-type {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

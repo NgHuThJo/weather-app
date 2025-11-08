@@ -1,4 +1,6 @@
 import { useState } from "react";
+import styles from "./hourly-board.module.css";
+import { icon_dropdown } from "#frontend/assets/images";
 import { mapHourlyWeatherToUI } from "#frontend/features/board/model/mapping";
 import { MAX_HOURLY_ENTRIES } from "#frontend/shared/app/constants";
 import { getWeatherIcon } from "#frontend/shared/app/icons";
@@ -51,29 +53,36 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
 
   return (
     <div>
-      <div>
-        <h2>Hourly forecast</h2>
+      <div className={styles["top-heading"]}>
+        <h2 className={styles.heading}>Hourly forecast</h2>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>
+              {currentDay} <Image src={icon_dropdown} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <ul>
+              {weekDays.map((day) => (
+                <DropdownMenuItem onSelect={() => handleChooseWeekDay(day)}>
+                  {day}
+                </DropdownMenuItem>
+              ))}
+            </ul>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button type="button">{currentDay}</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <ul>
-            {weekDays.map((day) => (
-              <DropdownMenuItem onSelect={() => handleChooseWeekDay(day)}>
-                {day}
-              </DropdownMenuItem>
-            ))}
-          </ul>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <ul>
+      <ul className={styles.list}>
         {hourlyDataArray.map(
           ({ hour, weather_code, temperature, isDay }, index) => (
-            <li key={index}>
-              <Image src={getWeatherIcon(weather_code, isDay).image}></Image>
-              <span>{hour}</span>
+            <li key={index} className={styles["list-item"]}>
+              <div>
+                <Image
+                  src={getWeatherIcon(weather_code, isDay).image}
+                  className="icon-sm"
+                ></Image>
+                <span>{hour}</span>
+              </div>
               <span>{temperature}</span>
             </li>
           ),

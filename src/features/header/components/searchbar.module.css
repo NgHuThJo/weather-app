@@ -1,6 +1,11 @@
 .layout {
   display: grid;
   gap: 1rem;
+
+  @media screen and (width >= 768px) {
+    grid-template-columns: 1fr 10rem;
+    align-items: center;
+  }
 }
 
 .search-input {

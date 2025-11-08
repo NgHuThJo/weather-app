@@ -1,28 +1,120 @@
 .board {
+  --gap: 1rem;
+  display: grid;
   grid-column: breakout-start / breakout-end;
+  grid-template-areas: "current" "daily" "hourly";
+
+  @media screen and (width >= 1024px) {
+    grid-template-areas: "current current hourly" "current current hourly" "daily daily hourly";
+  }
+}
+
+.current {
+  display: grid;
+  align-items: center;
+  gap: var(--gap);
+  grid-area: current;
+}
+
+.card-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--gap);
+}
+
+.daily {
+  grid-area: daily;
+
+  > h2 {
+    margin-bottom: var(--gap);
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-4);
+  }
+}
+
+.daily-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--gap);
+}
+
+.daily-heading {
+  font-size: var(--fs-3);
+}
+
+.daily-card {
+  display: grid;
+  justify-items: center;
+  padding: 0.625rem 1rem;
+  border-radius: calc(var(--border-radius-6) * 1px);
+  background-color: var(--bgc-current-card);
+}
+
+.daily-temperature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hourly {
+  grid-area: hourly;
+  padding: 1rem 1.25rem;
+  border-radius: calc(var(--border-radius-8) * 1px);
+  background-color: var(--bgc-current-card);
 }
 
 .stack {
   display: grid;
   align-items: center;
+  border-radius: calc(var(--border-radius-8) * 1px);
+  overflow: hidden;
 
   > * {
     grid-area: 1 / 1 / -1 / -1;
   }
 }
 
-.current {
+.image-container {
   display: grid;
-  grid-template-columns: [left-start] auto [left-end right-start] auto [right-end];
+  justify-items: center;
   align-items: center;
+
+  @media screen and (width >= 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.left {
-  grid-column: left-start / left-end;
+.image-left {
+  display: grid;
+  gap: 0.75rem;
   padding: 1rem;
+
+  @media screen and (width >= 768px) {
+    justify-self: start;
+  }
 }
-.right {
-  grid-column: right-start / right-end;
-  justify-self: end;
+
+.image-right {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
   padding: 1rem;
+
+  @media screen and (width >= 768px) {
+    justify-self: end;
+  }
+}
+
+.image-heading {
+  font-size: var(--fs-5);
+}
+
+.image-day {
+  font-weight: var(--fw-light);
+  font-size: var(--fs-3);
+}
+
+.image-temperature {
+  font-size: var(--fs-8);
+  font-style: italic;
 }

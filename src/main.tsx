@@ -8,6 +8,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { z } from "zod";
 import { routeTree } from "#frontend/routeTree.gen";
+import { ErrorBoundary } from "#frontend/shared/app/error-boundary";
 import { capitalizeFirstLetter } from "#frontend/shared/utils/string";
 import "#frontend/assets/styles";
 
@@ -77,8 +78,10 @@ if (!root) {
 
 ReactDOM.createRoot(root).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <ErrorBoundary fallback={<div>Some error happened.</div>}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ErrorBoundary>
   </StrictMode>,
 );

@@ -2,7 +2,7 @@ import type { MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
 import styles from "./header.module.css";
 import { logo, icon_units, icon_dropdown } from "#frontend/assets/images";
-import { SearchBar } from "#frontend/features/searchbar/components/searchbar";
+import { SearchBar } from "#frontend/features/header/components/searchbar";
 import { Button } from "#frontend/shared/primitives/button";
 import {
   DropdownMenu,
@@ -49,7 +49,7 @@ export function Header() {
       | null;
 
     if (!action) {
-      console.log("action target not found");
+      console.error("action target not found");
       return;
     }
 

@@ -31,7 +31,7 @@ function debounce<T extends (...args: any[]) => void>(
   return debouncedCallback;
 }
 
-export function useDebounce<T extends (...args: any[]) => void>(
+export function useDebouncedFunction<T extends (...args: any[]) => void>(
   callback: T,
   delay = 1000,
 ): DebouncedFunction<T> {

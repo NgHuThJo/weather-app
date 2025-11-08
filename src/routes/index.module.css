@@ -1,7 +1,7 @@
 .layout {
   --macro-grid-padding-inline: 1rem;
-  --macro-grid-breakout-column-width: 40rem;
-  --macro-grid-content-max-width: 40rem;
+  --macro-grid-breakout-column-width: 10rem;
+  --macro-grid-content-max-width: 70rem;
 
   display: grid;
   grid-template-columns:

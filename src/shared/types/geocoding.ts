@@ -4,21 +4,21 @@ export const geocodingSchema = z.object({
   results: z
     .array(
       z
-        .object({
+        .looseObject({
           id: z.number(),
           name: z.string(),
           latitude: z.number(),
           longitude: z.number(),
           elevation: z.number(),
-          feature_code: z.string(),
-          country_code: z.string(),
+          feature_code: z.string().optional(),
+          country_code: z.string().optional(),
           admin1_id: z.number().optional(),
           admin2_id: z.number().optional(),
           admin3_id: z.number().optional(),
           admin4_id: z.number().optional(),
-          timezone: z.string(),
-          country_id: z.number(),
-          country: z.string(),
+          timezone: z.string().optional(),
+          country_id: z.number().optional(),
+          country: z.string().optional(),
           admin1: z.string().optional(),
           admin2: z.string().optional(),
           admin3: z.string().optional(),
@@ -60,3 +60,5 @@ export const geocodingSchema = z.object({
     .optional(),
   generationtime_ms: z.number(),
 });
+
+export type Geocoding = z.infer<typeof geocodingSchema>;
