@@ -1,8 +1,10 @@
 .board {
   --gap: 1rem;
+
   display: grid;
   grid-column: breakout-start / breakout-end;
   grid-template-areas: "current" "daily" "hourly";
+  gap: 2rem;
 
   @media screen and (width >= 1024px) {
     grid-template-areas: "current current hourly" "current current hourly" "daily daily hourly";
@@ -34,7 +36,7 @@
 
 .daily-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
   gap: var(--gap);
 }
 
@@ -52,8 +54,8 @@
 
 .daily-temperature {
   display: flex;
-  align-items: center;
   gap: 1rem;
+  text-align: center;
 }
 
 .hourly {
@@ -80,14 +82,14 @@
   align-items: center;
 
   @media screen and (width >= 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: auto 1fr;
   }
 }
 
 .image-left {
   display: grid;
   gap: 0.75rem;
-  padding: 1rem;
+  padding: 1.5rem;
 
   @media screen and (width >= 768px) {
     justify-self: start;
@@ -96,9 +98,9 @@
 
 .image-right {
   display: flex;
-  gap: 1.25rem;
   justify-content: center;
-  padding: 1rem;
+  align-items: center;
+  padding: 1.5rem;
 
   @media screen and (width >= 768px) {
     justify-self: end;
@@ -106,6 +108,7 @@
 }
 
 .image-heading {
+  font-weight: var(--fw-bold);
   font-size: var(--fs-5);
 }
 
