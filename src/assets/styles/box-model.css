@@ -31,4 +31,6 @@
   --border-radius-8: 20;
   --border-radius-9: 24;
   --border-radius-10: 999;
+
+  --box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 }

@@ -15,6 +15,7 @@ const buttonVariants = cva(styles.button, {
       sidebar: styles.sidebar,
       unit: styles.unit,
       search: styles.search,
+      dropdown: styles.dropdown,
     },
     size: {
       default: styles["default-size"],
@@ -30,6 +31,8 @@ const buttonVariants = cva(styles.button, {
       destructive: "",
       create: "",
       active: "",
+      unit: "",
+      weekday: "",
     },
   },
   defaultVariants: {
@@ -38,6 +41,16 @@ const buttonVariants = cva(styles.button, {
     intent: "default",
   },
   compoundVariants: [
+    {
+      variant: "dropdown",
+      intent: "unit",
+      className: styles["unit"],
+    },
+    {
+      variant: "dropdown",
+      intent: "weekday",
+      className: styles["weekday"],
+    },
     {
       variant: "default",
       intent: "destructive",

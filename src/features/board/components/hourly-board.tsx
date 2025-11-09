@@ -8,7 +8,8 @@ import { Button } from "#frontend/shared/primitives/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "#frontend/shared/primitives/dropdown";
 import { Image } from "#frontend/shared/primitives/image";
@@ -57,18 +58,21 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
         <h2 className={styles.heading}>Hourly forecast</h2>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button>
+            <Button variant="dropdown" intent="weekday">
               {currentDay} <Image src={icon_dropdown} />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <ul>
+            <DropdownMenuRadioGroup value={currentDay}>
               {weekDays.map((day) => (
-                <DropdownMenuItem onSelect={() => handleChooseWeekDay(day)}>
+                <DropdownMenuRadioItem
+                  onSelect={() => handleChooseWeekDay(day)}
+                  value={day}
+                >
                   {day}
-                </DropdownMenuItem>
+                </DropdownMenuRadioItem>
               ))}
-            </ul>
+            </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

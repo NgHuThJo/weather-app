@@ -2,11 +2,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import * as React from "react";
 
 import styles from "./dropdown.module.css";
-import {
-  icon_checkmark,
-  icon_dropdown,
-  icon_drizzle,
-} from "#frontend/assets/images";
+import { icon_checkmark, icon_dropdown } from "#frontend/assets/images";
 import { Image } from "#frontend/shared/primitives/image";
 import { cn } from "#frontend/shared/utils/cn";
 
@@ -96,11 +92,9 @@ function DropdownMenuCheckboxItem({
       checked={checked}
       {...props}
     >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-        <DropdownMenuPrimitive.ItemIndicator>
-          <Image src={icon_checkmark} alt="checkmark icon"></Image>
-        </DropdownMenuPrimitive.ItemIndicator>
-      </span>
+      <DropdownMenuPrimitive.ItemIndicator>
+        <Image src={icon_checkmark} alt="checkmark icon"></Image>
+      </DropdownMenuPrimitive.ItemIndicator>
       {children}
     </DropdownMenuPrimitive.CheckboxItem>
   );
@@ -131,11 +125,11 @@ function DropdownMenuRadioItem({
       )}
       {...props}
     >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+      {/* <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
           <Image src={icon_drizzle} alt="circle icon"></Image>
         </DropdownMenuPrimitive.ItemIndicator>
-      </span>
+      </span> */}
       {children}
     </DropdownMenuPrimitive.RadioItem>
   );

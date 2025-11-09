@@ -10,6 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "#frontend/shared/primitives/dropdown";
 import { Image } from "#frontend/shared/primitives/image";
@@ -101,7 +102,7 @@ export function Header() {
         <Image src={logo} alt="logo" className="logo" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="unit">
+            <Button variant="dropdown" intent="unit">
               <Image src={icon_units} alt="unit icon" />
               Units
               <Image src={icon_dropdown} alt="dropdown icon"></Image>
@@ -126,6 +127,7 @@ export function Header() {
             >
               Fahrenheit (°F)
             </DropdownMenuCheckboxItem>
+            <DropdownMenuSeparator />
             <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
             <DropdownMenuCheckboxItem
               checked={currentUnits.wind_speed === "km/h"}
@@ -139,6 +141,7 @@ export function Header() {
             >
               mph
             </DropdownMenuCheckboxItem>
+            <DropdownMenuSeparator />
             <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
             <DropdownMenuCheckboxItem
               checked={currentUnits.precipitation === "mm"}

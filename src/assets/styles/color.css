@@ -16,9 +16,15 @@
 
   --c-root: var(--neutral-0);
   --bgc-unit-button: var(--neutral-800);
+  --bgc-weekday-button: var(--neutral-600);
   --bgc-search-button: var(--blue-500);
   --bgc-current-card: var(--neutral-800);
   --c-description-current-card: var(--neutral-200);
   --c-value-current-card: var(--neutral-0);
   --bgc-hourly-card: var(--neutral-700);
+  --bgc-dropdown: var(--neutral-800);
+  --bgc-dropdown-item: var(--neutral-700);
+  --c-dropdown-border: var(--neutral-0);
+  --c-dropdown-heading: var(--neutral-300);
+  --bgc-separator: var(--neutral-600);
 }

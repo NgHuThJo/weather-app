@@ -262,3 +262,11 @@
   background-color: var(--bgc-search-button);
   border-radius: 12px;
 }
+
+.unit {
+  background-color: var(--bgc-unit-button);
+}
+
+.weekday {
+  background-color: var(--bgc-weekday-button);
+}
