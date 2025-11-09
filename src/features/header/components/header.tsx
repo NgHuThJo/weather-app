@@ -158,8 +158,8 @@ export function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <h1 className={styles.heading}>How's the sky looking today?</h1>
       <div className={styles["header-bottom"]}>
+        <h1 className={styles.heading}>How's the sky looking today?</h1>
         <SearchBar />
       </div>
     </header>

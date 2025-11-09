@@ -14,21 +14,25 @@
   grid-column: 1 / -1;
 }
 
-.heading {
+.header-bottom {
   display: grid;
   grid-template-columns: subgrid;
   grid-row: 2 / 3;
   grid-column: content-start / content-end;
-  padding-block: 3rem 2rem;
+}
+
+.heading {
+  padding-block: 3rem 0.75rem;
   font-weight: var(--fw-bold);
   font-size: var(--fs-7);
   line-height: 1.2;
   text-align: center;
-}
 
-.header-bottom {
-  display: grid;
-  grid-template-columns: subgrid;
-  grid-row: 3 / 4;
-  grid-column: content-start / content-end;
+  @media screen and (width >= 768px) {
+    padding-block: 3rem;
+  }
+
+  @media screen and (width >= 1024px) {
+    padding-block: 4rem;
+  }
 }
