@@ -24,12 +24,8 @@
     outline-offset: 4px;
   }
 
-  img {
-    flex-grow: 0;
-  }
-
   input {
-    flex-grow: 1;
+    width: 100%;
     border: none;
     background-color: inherit;
 

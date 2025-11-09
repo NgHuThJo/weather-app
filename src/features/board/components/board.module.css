@@ -118,6 +118,10 @@
 }
 
 .image-temperature {
-  font-size: var(--fs-8);
+  font-size: var(--fs-7);
   font-style: italic;
+
+  @media screen and (width >= 768px) {
+    font-size: var(--fs-8);
+  }
 }
