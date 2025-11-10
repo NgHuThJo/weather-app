@@ -265,6 +265,18 @@
 
 .unit {
   background-color: var(--bgc-unit-button);
+
+  > img:last-of-type {
+    transition: transform var(--transition-duration);
+  }
+
+  &[data-state="open"] img {
+    transform: rotate(180deg);
+  }
+
+  &[data-state="close"] img {
+    transform: rotate(-180deg);
+  }
 }
 
 .weekday {

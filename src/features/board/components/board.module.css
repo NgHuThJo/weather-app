@@ -36,7 +36,7 @@
 
 .daily-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
   gap: var(--gap);
 }
 
@@ -118,10 +118,6 @@
 }
 
 .image-temperature {
-  font-size: var(--fs-7);
+  font-size: clamp(var(--fs-7), 2.4643rem + 3.9286vw, var(--fs-8));
   font-style: italic;
-
-  @media screen and (width >= 768px) {
-    font-size: var(--fs-8);
-  }
 }

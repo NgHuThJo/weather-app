@@ -208,7 +208,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 0.5rem;
+  padding: 0.625rem 2rem 0.625rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
   cursor: pointer;
@@ -243,7 +243,7 @@
 .dropdown-menu-checkbox-item span,
 .dropdown-menu-radio-item span {
   position: absolute;
-  right: 0.5rem; /* left-2 */
+  right: 0.5rem;
   display: flex;
   width: 0.875rem; /* size-3.5 */
   height: 0.875rem;

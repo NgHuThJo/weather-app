@@ -92,8 +92,8 @@ export const weatherQueryOptions = {
           },
           imperial: {
             ...imperial,
-            continent: metric.timezone.split("/")[0],
-            city: metric.timezone.split("/")[1],
+            continent: imperial.timezone.split("/")[0],
+            city: imperial.timezone.split("/")[1],
             current: imperial.current,
             current_units: imperial.current_units,
             daily: transformDailyData(imperialDaily),
