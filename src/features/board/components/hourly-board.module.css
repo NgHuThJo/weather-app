@@ -2,8 +2,14 @@
   --gap: 1rem;
 
   display: flex;
+  gap: var(--gap);
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 1rcap;
+
+  > button {
+    min-width: 9rem;
+  }
 }
 
 .heading {

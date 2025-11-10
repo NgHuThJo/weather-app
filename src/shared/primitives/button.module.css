@@ -269,4 +269,16 @@
 
 .weekday {
   background-color: var(--bgc-weekday-button);
+
+  > img {
+    transition: transform var(--transition-duration);
+  }
+
+  &[data-state="open"] img {
+    transform: rotate(180deg);
+  }
+
+  &[data-state="close"] img {
+    transform: rotate(-180deg);
+  }
 }
