@@ -13,16 +13,17 @@
   gap: 1rem;
   padding: 1rem 1.5rem;
   border-radius: 1rem;
+  position: relative;
   background-color: var(--bgc-unit-button);
   outline: 1px dashed transparent;
-  transition:
+  /* transition:
     outline var(--transition-duration) ease-in-out,
     outline-offset var(--transition-duration) ease-in-out;
 
   &:focus-within {
     outline: 1px dashed white;
     outline-offset: 4px;
-  }
+  } */
 
   input {
     width: 100%;
@@ -33,5 +34,14 @@
     &:focus-visible {
       outline: none;
     }
+  }
+}
+
+.search-item {
+  border-radius: calc(var(--border-radius-4) * 1px);
+
+  &:hover,
+  &:focus-within {
+    background-color: var(--bgc-dropdown-item);
   }
 }

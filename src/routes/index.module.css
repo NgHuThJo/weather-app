@@ -1,6 +1,6 @@
 .layout {
   --macro-grid-padding-inline: 1rem;
-  --macro-grid-breakout-column-width: 10rem;
+  --macro-grid-breakout-column-width: 20rem;
   --macro-grid-content-max-width: 50rem;
 
   display: grid;
@@ -37,4 +37,8 @@
     row-gap: 3rem;
     padding-block: 3rem 5rem;
   }
+}
+
+.fallback {
+  grid-column: breakout-start / breakout-end;
 }

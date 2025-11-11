@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  useEffect,
   useRef,
   useState,
   type ChangeEvent,
@@ -23,22 +24,29 @@ import { capitalizeFirstLetter } from "#frontend/shared/utils/string";
 export function SearchBar() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const setLocationData = useLocationStore((state) => state.setLocationData);
   const debouncedSearchInput = useDebouncedValue(searchInput);
-  const { data } = useQuery({
+  const { data, fetchStatus } = useQuery({
     ...autocompleteOptions.result(debouncedSearchInput),
     select: (data) => {
       return data.results;
     },
-    enabled: !!searchInput,
   });
   const currentLocationDataRef = useRef<{
     latitude: number;
     longitude: number;
   }>(null);
 
+  useEffect(() => {
+    if (fetchStatus !== "fetching") {
+      setIsSearching(false);
+    }
+  }, [fetchStatus]);
+
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.currentTarget.value);
+    setIsSearching(true);
     setIsPopoverOpen(true);
   };
 
@@ -93,18 +101,24 @@ export function SearchBar() {
             event.preventDefault();
           }}
         >
-          {data?.map(({ latitude, longitude, id, name }) => (
-            <li key={id}>
-              <Button
-                onClick={(event) =>
-                  handleAutoCompleteSelect(event, latitude, longitude)
-                }
-                value={name}
-              >
-                {capitalizeFirstLetter(name)}
-              </Button>
-            </li>
-          ))}
+          {isSearching ? (
+            <p>Searching...</p>
+          ) : !data ? (
+            <p>No match found</p>
+          ) : (
+            data?.map(({ latitude, longitude, id, name }) => (
+              <li key={id} className={styles["search-item"]}>
+                <Button
+                  onClick={(event) =>
+                    handleAutoCompleteSelect(event, latitude, longitude)
+                  }
+                  value={name}
+                >
+                  {capitalizeFirstLetter(name)}
+                </Button>
+              </li>
+            ))
+          )}
         </PopoverContent>
       </Popover>
       <Button type="submit" variant="search">

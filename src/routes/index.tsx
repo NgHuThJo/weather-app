@@ -3,6 +3,7 @@ import { Suspense, useEffect } from "react";
 import styles from "./index.module.css";
 import { Board } from "#frontend/features/board/components/board";
 import { Header } from "#frontend/features/header/components/header";
+import { logger } from "#frontend/shared/app/logging";
 import { useLocationStore } from "#frontend/shared/store/location";
 import { UnitStoreProvider } from "#frontend/shared/store/unit";
 import { getCurrentPosition } from "#frontend/shared/utils/geolocation";
@@ -17,7 +18,7 @@ function Index() {
   useEffect(() => {
     const geoLocationHandler = (position: GeolocationPosition) => {
       const { latitude, longitude } = position.coords;
-      console.log(latitude, longitude);
+      logger.log(latitude, longitude);
 
       setLocationData(latitude, longitude);
     };
@@ -35,7 +36,7 @@ function Index() {
     <main className={styles.layout}>
       <UnitStoreProvider>
         <Header />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className={styles.fallback}>Loading...</div>}>
           <Board />
         </Suspense>
       </UnitStoreProvider>
