@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchData } from "#frontend/shared/api/client";
+import type { ReverseGeocodingResponse } from "#frontend/shared/types/reverse-geocoding";
 import {
   type DailyWeather,
   type HourlyWeather,
@@ -30,7 +31,10 @@ export const weatherQueryOptions = {
           temperature_unit: "fahrenheit",
           precipitation_unit: "inch",
         };
-        const url = import.meta.env.VITE_METEO_FORECAST_BASE_URL;
+        const meteoUrl = import.meta.env.VITE_METEO_FORECAST_BASE_URL;
+        const geoapifyUrl = import.meta.env
+          .VITE_GEOAPIFY_REVERSE_GEOCODING_BASE_URL;
+        const geoapifyApiKey = import.meta.env.VITE_GEOAPIFY_API_KEY;
         const metricQueryString: Partial<
           Record<BaseWeatherParamsKeys, string>
         > = {};
@@ -56,15 +60,26 @@ export const weatherQueryOptions = {
             : String(baseWeatherParamsInImperial[key]);
         }
 
-        const [metric, imperial]: [WeatherData, WeatherData] =
-          await Promise.all([
-            fetchData(
-              `${url}?${new URLSearchParams(metricQueryString).toString()}`,
-            ),
-            fetchData(
-              `${url}?${new URLSearchParams(imperialQueryString).toString()}`,
-            ),
-          ]);
+        const [metric, imperial, geoapify]: [
+          WeatherData,
+          WeatherData,
+          ReverseGeocodingResponse,
+        ] = await Promise.all([
+          fetchData(
+            `${meteoUrl}?${new URLSearchParams(metricQueryString).toString()}`,
+          ),
+          fetchData(
+            `${meteoUrl}?${new URLSearchParams(imperialQueryString).toString()}`,
+          ),
+          fetchData(
+            `${geoapifyUrl}?${new URLSearchParams({
+              lat: String(latitude),
+              lon: String(longitude),
+              type: "city",
+              apiKey: geoapifyApiKey,
+            }).toString()}`,
+          ),
+        ]);
 
         const validatedMetricData = weatherSchema.safeParse(metric);
         const validatedImperialData = weatherSchema.safeParse(imperial);
@@ -77,12 +92,14 @@ export const weatherQueryOptions = {
         const metricHourly = metric.hourly;
         const imperialDaily = imperial.daily;
         const imperialHourly = imperial.hourly;
+        const city = geoapify.features[0]?.properties.city;
+        const country = geoapify.features[0]?.properties.country;
 
         const projectedData = {
           metric: {
             ...metric,
-            continent: metric.timezone.split("/")[0],
-            city: metric.timezone.split("/")[1],
+            country,
+            city,
             current: metric.current,
             current_units: metric.current_units,
             daily: transformDailyData(metricDaily),
@@ -92,8 +109,8 @@ export const weatherQueryOptions = {
           },
           imperial: {
             ...imperial,
-            continent: imperial.timezone.split("/")[0],
-            city: imperial.timezone.split("/")[1],
+            country,
+            city,
             current: imperial.current,
             current_units: imperial.current_units,
             daily: transformDailyData(imperialDaily),

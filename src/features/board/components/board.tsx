@@ -71,7 +71,7 @@ export function Board() {
             <div className={styles["image-left"]}>
               <h2
                 className={styles["image-heading"]}
-              >{`${unitData.city}, ${unitData.continent}`}</h2>
+              >{`${unitData.city}, ${unitData.country}`}</h2>
               <p
                 className={styles["image-day"]}
               >{`${formatWeatherDateForUI(new Date(unitData.current.time))}`}</p>
