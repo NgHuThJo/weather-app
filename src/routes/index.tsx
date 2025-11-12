@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Suspense, useEffect } from "react";
 import styles from "./index.module.css";
 import { Board } from "#frontend/features/board/components/board";
+import { BoardPlaceholder } from "#frontend/features/board/components/placeholder";
 import { Header } from "#frontend/features/header/components/header";
 import { logger } from "#frontend/shared/app/logging";
 import { useLocationStore } from "#frontend/shared/store/location";
@@ -36,7 +37,7 @@ function Index() {
     <main className={styles.layout}>
       <UnitStoreProvider>
         <Header />
-        <Suspense fallback={<div className={styles.fallback}>Loading...</div>}>
+        <Suspense fallback={<BoardPlaceholder />}>
           <Board />
         </Suspense>
       </UnitStoreProvider>

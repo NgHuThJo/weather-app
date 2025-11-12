@@ -20,6 +20,8 @@ html {
 
 body {
   flex-grow: 1;
+  /* spec recommends settings background-color on body */
+  background-color: var(--c-bg-root);
 }
 
 a,
@@ -92,7 +94,6 @@ textarea {
   height: 100vh;
   min-width: 20rem;
   line-height: 1.2;
-  background-color: var(--c-bg-primary);
 }
 
 @media (prefers-reduced-motion) {

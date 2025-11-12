@@ -21,6 +21,8 @@ export const weatherQueryOptions = {
     queryOptions({
       queryKey: weatherQueryKeys.location(latitude, longitude),
       queryFn: async () => {
+        throw new Promise((resolve) => setTimeout(resolve, 1000000));
+
         const baseWeatherParamsInMetric = createBaseWeatherParams(
           latitude,
           longitude,
@@ -122,6 +124,7 @@ export const weatherQueryOptions = {
 
         return projectedData;
       },
+      retry: false,
     }),
 };
 

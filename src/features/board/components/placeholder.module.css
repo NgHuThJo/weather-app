@@ -1,0 +1,44 @@
+@keyframes loading {
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.layout {
+  --animation-duration: 0.8s;
+
+  display: grid;
+  grid-column: breakout-start / breakout-end;
+  grid-template-areas: "current" "daily" "hourly";
+  gap: 2rem;
+  height: 45rem;
+
+  @media screen and (width >= 1024px) {
+    grid-template-areas: "current current hourly" "current current hourly" "daily daily hourly";
+  }
+}
+
+.current {
+  grid-area: current;
+  border-radius: calc(var(--border-radius-8) * 1px);
+  background-color: var(--bgc-current-card);
+  animation: var(--animation-duration) linear infinite alternate loading;
+}
+
+.daily {
+  grid-area: daily;
+  border-radius: calc(var(--border-radius-8) * 1px);
+  background-color: var(--bgc-current-card);
+
+  animation: var(--animation-duration) linear infinite alternate loading;
+}
+
+.hourly {
+  grid-area: hourly;
+  border-radius: calc(var(--border-radius-8) * 1px);
+  background-color: var(--bgc-current-card);
+  animation: var(--animation-duration) linear infinite alternate loading;
+}

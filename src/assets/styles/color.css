@@ -15,12 +15,13 @@
   --blue-700: #2b1b9c;
 
   --c-root: var(--neutral-0);
+  --bgc-root: var(--neutral-900);
   --bgc-unit-button: var(--neutral-800);
   --bgc-weekday-button: var(--neutral-600);
   --bgc-search-button: var(--blue-500);
-  --bgc-current-card: var(--neutral-800);
   --c-description-current-card: var(--neutral-200);
   --c-value-current-card: var(--neutral-0);
+  --bgc-current-card: var(--neutral-800);
   --bgc-hourly-card: var(--neutral-700);
   --bgc-dropdown: var(--neutral-800);
   --bgc-dropdown-item: var(--neutral-700);
