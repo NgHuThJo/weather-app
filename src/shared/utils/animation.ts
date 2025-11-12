@@ -1,31 +1,31 @@
-import { logger } from "#frontend/shared/app/logging";
-
 type Animation = {
   draw: (progress: number) => void;
   timing: (timeFraction: number) => number;
   duration: number;
+  isInfinite: boolean;
 };
 
-export function animate({ draw, timing, duration }: Animation) {
+export function animate({ draw, timing, duration, isInfinite }: Animation) {
   if (duration <= 0) {
-    logger.log("Animation duration has to be positive number");
-
-    return;
+    throw Error("Animation duration has to be positive number");
   }
 
-  let start: number | null;
-  let requestionAnimationFrameId: number | null;
+  let start: number | null = null;
+  let requestionAnimationFrameId: number | null = null;
 
-  const animationCallback = () => {
+  const animationCallback = (timestamp: number) => {
     if (start === null) {
-      start = performance.now();
+      start = timestamp;
     }
 
-    const timePassed = performance.now() - start;
+    const timePassed = timestamp - start;
     const progress = timing(Math.min(timePassed / duration, 1));
     draw(progress);
 
     if (progress < 1) {
+      requestionAnimationFrameId = requestAnimationFrame(animationCallback);
+    } else if (isInfinite) {
+      start = null;
       requestionAnimationFrameId = requestAnimationFrame(animationCallback);
     }
   };
