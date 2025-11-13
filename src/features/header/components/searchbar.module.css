@@ -45,3 +45,10 @@
     background-color: var(--bgc-dropdown-item);
   }
 }
+
+.search-loader {
+  &:after {
+    content: "";
+    animation: 1s steps(5, jump-start) infinite global(typing);
+  }
+}

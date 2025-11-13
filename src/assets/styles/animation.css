@@ -52,3 +52,30 @@
 .slide-out {
   animation: slideOut var(--transition-duration) ease-in-out forwards;
 }
+
+@keyframes loading {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes typing {
+  20% {
+    content: ".";
+  }
+  40% {
+    content: "..";
+  }
+  60% {
+    content: "...";
+  }
+  80% {
+    content: "....";
+  }
+  100% {
+    content: ".....";
+  }
+}

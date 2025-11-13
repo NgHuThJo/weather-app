@@ -102,7 +102,7 @@ export function SearchBar() {
           }}
         >
           {isSearching ? (
-            <p>Searching...</p>
+            <p className={styles["search-loader"]}>Searching</p>
           ) : !data ? (
             <p>No match found</p>
           ) : (
