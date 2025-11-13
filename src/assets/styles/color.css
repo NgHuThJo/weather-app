@@ -15,6 +15,7 @@
   --blue-700: #2b1b9c;
 
   --c-root: var(--neutral-0);
+  --c-error-meessage: var(--neutral-200);
   --bgc-root: var(--neutral-900);
   --bgc-unit-button: var(--neutral-800);
   --bgc-weekday-button: var(--neutral-600);
@@ -29,4 +30,5 @@
   --c-dropdown-heading: var(--neutral-300);
   --bgc-separator: var(--neutral-600);
   --bgc-search-suggestion: var(--neutral-800);
+  --bgc-retry-button: var(--neutral-800);
 }

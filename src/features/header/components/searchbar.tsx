@@ -113,6 +113,7 @@ export function SearchBar() {
                     handleAutoCompleteSelect(event, latitude, longitude)
                   }
                   value={name}
+                  variant="search-item"
                 >
                   {capitalizeFirstLetter(name)}
                 </Button>

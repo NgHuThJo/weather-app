@@ -110,7 +110,7 @@ export function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent onClick={handleUnitSelection}>
             <DropdownMenuItem asChild data-action="system">
-              <Button>
+              <Button variant="search-item">
                 {`Switch to ${currentSystem === "metric" ? "Imperial" : "Metric"}`}
               </Button>
             </DropdownMenuItem>

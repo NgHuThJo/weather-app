@@ -294,3 +294,16 @@
     transform: rotate(-180deg);
   }
 }
+
+.search-item {
+  width: 100%;
+  justify-content: start;
+}
+
+.retry {
+  display: flex;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  border-radius: calc(var(--border-radius-4) * 1px);
+  background-color: var(--bgc-retry-button);
+}

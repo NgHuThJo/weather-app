@@ -16,6 +16,8 @@ const buttonVariants = cva(styles.button, {
       unit: styles.unit,
       search: styles.search,
       dropdown: styles.dropdown,
+      retry: styles.retry,
+      ["search-item"]: styles["search-item"],
     },
     size: {
       default: styles["default-size"],

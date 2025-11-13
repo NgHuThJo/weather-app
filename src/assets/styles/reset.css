@@ -21,7 +21,7 @@ html {
 body {
   flex-grow: 1;
   /* spec recommends settings background-color on body */
-  background-color: var(--c-bg-root);
+  background-color: var(--bgc-root);
 }
 
 a,
