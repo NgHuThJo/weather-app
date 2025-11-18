@@ -31,4 +31,5 @@
   --bgc-separator: var(--neutral-600);
   --bgc-search-suggestion: var(--neutral-800);
   --bgc-retry-button: var(--neutral-800);
+  --bgc-bookmark-button: var(--blue-500);
 }

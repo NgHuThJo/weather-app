@@ -43,3 +43,8 @@
     animation: 1s steps(5, jump-start) infinite global(typing);
   }
 }
+
+.error {
+  grid-row: 2;
+  color: red;
+}

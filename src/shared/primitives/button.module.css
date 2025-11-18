@@ -307,3 +307,7 @@
   border-radius: calc(var(--border-radius-4) * 1px);
   background-color: var(--bgc-retry-button);
 }
+
+.bookmark {
+  background-color: var(--bgc-bookmark-button);
+}

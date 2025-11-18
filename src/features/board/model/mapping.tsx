@@ -64,7 +64,7 @@ export function mapDailyWeatherToUI({ data, units }: DailyWeatherMapper) {
 }
 
 export function mapHourlyWeatherToUI({ data, units }: HourlyWeatherMapper) {
-  const dailyData = data.map((hour) => ({
+  const hourlyData = data.map((hour) => ({
     hour: getHourFromDate({ date: new Date(hour.time) }),
     day: getDayFromDate({
       date: new Date(hour.time),
@@ -75,5 +75,5 @@ export function mapHourlyWeatherToUI({ data, units }: HourlyWeatherMapper) {
     isDay: hour.is_day,
   }));
 
-  return dailyData;
+  return hourlyData;
 }

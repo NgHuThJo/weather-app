@@ -16,11 +16,12 @@ html {
   font-weight: var(--fw-root);
   font-size: var(--fs-root);
   color: var(--c-root);
+  overflow: auto;
 }
 
 body {
   flex-grow: 1;
-  /* spec recommends settings background-color on body */
+  /* spec recommends settings background stuff on body */
   background-color: var(--bgc-root);
 }
 

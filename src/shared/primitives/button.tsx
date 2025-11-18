@@ -16,6 +16,7 @@ const buttonVariants = cva(styles.button, {
       unit: styles.unit,
       search: styles.search,
       dropdown: styles.dropdown,
+      bookmark: styles.bookmark,
       retry: styles.retry,
       ["search-item"]: styles["search-item"],
     },

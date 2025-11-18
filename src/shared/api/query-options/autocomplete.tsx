@@ -14,7 +14,7 @@ export const autocompleteKeys = {
 };
 
 export const autocompleteOptions = {
-  result: (searchInput: string) =>
+  getLocations: (searchInput: string) =>
     queryOptions({
       queryKey: autocompleteKeys.all(searchInput),
       queryFn: async ({ signal }) => {

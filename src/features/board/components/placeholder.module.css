@@ -2,13 +2,13 @@
   --animation-duration: 1.5s;
 
   display: grid;
-
   grid-column: breakout-start / breakout-end;
   grid-template-areas: "current" "daily" "hourly";
   gap: 2rem;
 
   @media screen and (width >= 1024px) {
     grid-template-areas: "current current hourly" "current current hourly" "daily daily hourly";
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

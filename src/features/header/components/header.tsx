@@ -1,8 +1,14 @@
-import type { MouseEvent } from "react";
+import { useRef, useState, type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
 import styles from "./header.module.css";
-import { logo, icon_units, icon_dropdown } from "#frontend/assets/images";
+import {
+  logo,
+  icon_units,
+  icon_dropdown,
+  icon_retry,
+} from "#frontend/assets/images";
 import { SearchBar } from "#frontend/features/header/components/searchbar";
+import { logger } from "#frontend/shared/app/logging";
 import { Button } from "#frontend/shared/primitives/button";
 import {
   DropdownMenu,
@@ -15,12 +21,22 @@ import {
 } from "#frontend/shared/primitives/dropdown";
 import { Image } from "#frontend/shared/primitives/image";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "#frontend/shared/primitives/popover";
+import {
   useCurrentUnits,
   useCurrentSystem,
   useUnitStore,
 } from "#frontend/shared/store/unit";
 
 export function Header() {
+  const [bookmarkList, setBookmarkList] = useState<Set<string>>(() => {
+    const bookmarks = localStorage.getItem("bookmark");
+
+    return bookmarks ? JSON.parse(bookmarks) : new Set();
+  });
   const currentSystem = useCurrentSystem();
   const currentUnits = useCurrentUnits();
   const {
@@ -30,11 +46,33 @@ export function Header() {
     setMetricUnits,
   } = useUnitStore(
     useShallow((state) => {
-      const { currentUnits, currentSystem, ...rest } = state;
+      const { currentUnits: _1, currentSystem: _2, ...rest } = state;
 
       return rest;
     }),
   );
+  const searchBarRef = useRef<(bookmark: string) => void>(null);
+
+  const handleBookmark = (location: string) => {
+    setBookmarkList((prev) => new Set(prev).add(location));
+  };
+
+  const handleChooseBookmark = (bookmark: string) => {
+    if (!searchBarRef.current) {
+      logger.log("Error in bookmark adding");
+      return;
+    }
+
+    searchBarRef.current(bookmark);
+  };
+
+  const handleDeleteBookmark = (location: string) => {
+    setBookmarkList((prev) => {
+      prev.delete(location);
+
+      return new Set(prev);
+    });
+  };
 
   const handleUnitSelection = (event: MouseEvent) => {
     const action = (event.target as HTMLElement)
@@ -50,7 +88,7 @@ export function Header() {
       | null;
 
     if (!action) {
-      console.error("action target not found");
+      logger.log("action target not found");
       return;
     }
 
@@ -91,7 +129,7 @@ export function Header() {
         break;
       }
       default: {
-        console.error("Action in dropdown does not match any unit");
+        logger.log("Action in dropdown does not match any unit");
       }
     }
   };
@@ -100,67 +138,95 @@ export function Header() {
     <header className={styles.header}>
       <div className={styles["header-top"]}>
         <Image src={logo} alt="logo" className="logo" />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="dropdown" intent="unit">
-              <Image src={icon_units} alt="unit icon" />
-              Units
-              <Image src={icon_dropdown} alt="dropdown icon"></Image>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent onClick={handleUnitSelection}>
-            <DropdownMenuItem asChild data-action="system">
-              <Button variant="search-item">
-                {`Switch to ${currentSystem === "metric" ? "Imperial" : "Metric"}`}
+        <div className={styles["button-row"]}>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="bookmark">+ Add bookmark</Button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="end"
+              style={{ "--radix-popper-anchor-width": "100%" }}
+            >
+              <ul>
+                {bookmarkList.size ? (
+                  [...bookmarkList].map((bookmark) => (
+                    <li className={styles.bookmark}>
+                      <Button onClick={() => handleChooseBookmark(bookmark)}>
+                        {bookmark}
+                      </Button>
+                      <Button onClick={() => handleDeleteBookmark(bookmark)}>
+                        <Image src={icon_retry}></Image>
+                      </Button>
+                    </li>
+                  ))
+                ) : (
+                  <p>No bookmarks made.</p>
+                )}
+              </ul>
+            </PopoverContent>
+          </Popover>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button variant="dropdown" intent="unit">
+                <Image src={icon_units} alt="unit icon" />
+                Units
+                <Image src={icon_dropdown} alt="dropdown icon"></Image>
               </Button>
-            </DropdownMenuItem>
-            <DropdownMenuLabel>Temperature</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem
-              checked={currentUnits.temperature === "°C"}
-              data-action="celsius"
-            >
-              Celsius (°C)
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={currentUnits.temperature === "°F"}
-              data-action="fahrenheit"
-            >
-              Fahrenheit (°F)
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem
-              checked={currentUnits.wind_speed === "km/h"}
-              data-action="km/h"
-            >
-              km/h
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={currentUnits.wind_speed === "mph"}
-              data-action="mph"
-            >
-              mph
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem
-              checked={currentUnits.precipitation === "mm"}
-              data-action="mm"
-            >
-              Millimeters (mm)
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={currentUnits.precipitation === "in"}
-              data-action="in"
-            >
-              Inches (in)
-            </DropdownMenuCheckboxItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent onClick={handleUnitSelection}>
+              <DropdownMenuItem asChild data-action="system">
+                <Button variant="search-item">
+                  {`Switch to ${currentSystem === "metric" ? "Imperial" : "Metric"}`}
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuLabel>Temperature</DropdownMenuLabel>
+              <DropdownMenuCheckboxItem
+                checked={currentUnits.temperature === "°C"}
+                data-action="celsius"
+              >
+                Celsius (°C)
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={currentUnits.temperature === "°F"}
+                data-action="fahrenheit"
+              >
+                Fahrenheit (°F)
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Wind Speed</DropdownMenuLabel>
+              <DropdownMenuCheckboxItem
+                checked={currentUnits.wind_speed === "km/h"}
+                data-action="km/h"
+              >
+                km/h
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={currentUnits.wind_speed === "mph"}
+                data-action="mph"
+              >
+                mph
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Precipitation</DropdownMenuLabel>
+              <DropdownMenuCheckboxItem
+                checked={currentUnits.precipitation === "mm"}
+                data-action="mm"
+              >
+                Millimeters (mm)
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={currentUnits.precipitation === "in"}
+                data-action="in"
+              >
+                Inches (in)
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className={styles["header-bottom"]}>
         <h1 className={styles.heading}>How's the sky looking today?</h1>
-        <SearchBar />
+        <SearchBar handleBookmark={handleBookmark} ref={searchBarRef} />
       </div>
     </header>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import styles from "./hourly-board.module.css";
 import { icon_dropdown } from "#frontend/assets/images";
 import { mapHourlyWeatherToUI } from "#frontend/features/board/model/mapping";
@@ -43,6 +43,19 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
       },
     }),
   );
+  const hourlyListRef = useRef<HTMLUListElement>(null);
+
+  useLayoutEffect(() => {
+    if (!hourlyListRef.current) {
+      return;
+    }
+
+    const list = hourlyListRef.current;
+    const listElements = list.querySelectorAll("li");
+    listElements.forEach((element, index) => {
+      element.style.setProperty("--index", String(index));
+    });
+  }, []);
 
   const hourlyDataArray = mapHourlyWeatherToUI({ data, units })
     .filter((data) => data.day === currentDay)
@@ -56,7 +69,7 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
     <div>
       <div className={styles["top-heading"]}>
         <h2 className={styles.heading}>Hourly forecast</h2>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button variant="dropdown" intent="weekday">
               {currentDay} <Image src={icon_dropdown} />
@@ -64,10 +77,11 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuRadioGroup value={currentDay}>
-              {weekDays.map((day) => (
+              {weekDays.map((day, index) => (
                 <DropdownMenuRadioItem
                   onSelect={() => handleChooseWeekDay(day)}
                   value={day}
+                  key={index}
                 >
                   {day}
                 </DropdownMenuRadioItem>
@@ -76,7 +90,7 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <ul className={styles.list}>
+      <ul className={styles.list} ref={hourlyListRef}>
         {hourlyDataArray.map(
           ({ hour, weather_code, temperature, isDay }, index) => (
             <li key={index} className={styles["list-item"]}>
