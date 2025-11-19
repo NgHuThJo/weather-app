@@ -90,10 +90,14 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <ul className={styles.list} ref={hourlyListRef}>
+      <ul className={styles.list} ref={hourlyListRef} data-testid="hourly-list">
         {hourlyDataArray.map(
           ({ hour, weather_code, temperature, isDay }, index) => (
-            <li key={index} className={styles["list-item"]}>
+            <li
+              key={index}
+              className={styles["list-item"]}
+              data-testid="hourly-list-item"
+            >
               <div>
                 <Image
                   src={getWeatherIcon(weather_code, isDay).image}

@@ -149,7 +149,10 @@ export function Board() {
                 }
                 className="icon-bg"
               ></Image>
-              <p className={styles["image-temperature"]}>
+              <p
+                className={styles["image-temperature"]}
+                data-testid="current-hero-temperature"
+              >
                 {formatWeatherValue(
                   currentUnits.temperature === "°C"
                     ? weatherData.metric.current.temperature_2m
@@ -160,7 +163,11 @@ export function Board() {
             </div>
           </div>
         </div>
-        <div className={styles["card-layout"]} ref={currentListRef}>
+        <div
+          className={styles["card-layout"]}
+          ref={currentListRef}
+          data-testid="current-list"
+        >
           {currentDataArray.map(([description, { unit, value, separator }]) => (
             <CurrentCard
               text={description}
@@ -168,13 +175,18 @@ export function Board() {
               unit={unit}
               separator={separator}
               key={description}
+              data-testid="current-list-item"
             ></CurrentCard>
           ))}
         </div>
       </div>
       <div className={styles.daily}>
         <h2>Daily forecast</h2>
-        <ul className={styles["daily-list"]} ref={dailyListRef}>
+        <ul
+          className={styles["daily-list"]}
+          ref={dailyListRef}
+          data-testid="daily-list"
+        >
           {dailyDataArray.map(
             (
               {
@@ -185,7 +197,11 @@ export function Board() {
               },
               index,
             ) => (
-              <li key={index} className={styles["daily-card"]}>
+              <li
+                key={index}
+                className={styles["daily-card"]}
+                data-testid="daily-list-item"
+              >
                 <h3 className={styles["daily-heading"]}>{day}</h3>
                 <Image
                   src={getWeatherIcon(weather_code).image}

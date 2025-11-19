@@ -1,4 +1,4 @@
-import { useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { useShallow } from "zustand/shallow";
 import styles from "./header.module.css";
 import {
@@ -35,7 +35,15 @@ export function Header() {
   const [bookmarkList, setBookmarkList] = useState<Set<string>>(() => {
     const bookmarks = localStorage.getItem("bookmark");
 
-    return bookmarks ? JSON.parse(bookmarks) : new Set();
+    if (bookmarks === null) {
+      return new Set();
+    }
+
+    const parsedBookmarks = JSON.parse(bookmarks);
+
+    return Array.isArray(parsedBookmarks)
+      ? new Set(parsedBookmarks)
+      : new Set();
   });
   const currentSystem = useCurrentSystem();
   const currentUnits = useCurrentUnits();
@@ -52,6 +60,10 @@ export function Header() {
     }),
   );
   const searchBarRef = useRef<(bookmark: string) => void>(null);
+
+  useEffect(() => {
+    localStorage.setItem("bookmark", JSON.stringify([...bookmarkList]));
+  }, [bookmarkList]);
 
   const handleBookmark = (location: string) => {
     setBookmarkList((prev) => new Set(prev).add(location));

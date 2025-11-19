@@ -13,9 +13,10 @@ export function CurrentCard({
   value,
   unit,
   separator,
+  ...props
 }: CurrentCardProps) {
   return (
-    <div className={styles.layout}>
+    <div className={styles.layout} {...props}>
       <h3>{text}</h3>
       <span>{formatWeatherValue(String(value), unit, separator)}</span>
     </div>
