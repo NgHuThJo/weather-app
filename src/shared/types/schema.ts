@@ -284,6 +284,10 @@ export const weatherIcons = {
   },
 };
 
+const temperatureUnits = ["°C", "°F"] as const;
+const windSpeedUnits = ["km/h", "mp/h"] as const;
+const precipitationUnits = ["mm", "inch"] as const;
+
 type WeatherCode = keyof typeof weatherIcons;
 const weatherCodeSchema = z.literal(
   (Object.keys(weatherIcons) as WeatherCode[]).map<WeatherCodeNumber>(
@@ -303,12 +307,12 @@ export const weatherSchema = z.object({
   current_units: z.object({
     time: z.string(),
     interval: z.string(),
-    temperature_2m: z.string(),
-    precipitation: z.string(),
+    temperature_2m: z.literal(temperatureUnits),
+    precipitation: z.literal(precipitationUnits),
     relative_humidity_2m: z.string(),
-    apparent_temperature: z.string(),
+    apparent_temperature: z.literal(temperatureUnits),
     weather_code: z.string(),
-    wind_speed_10m: z.string(),
+    wind_speed_10m: z.literal(windSpeedUnits),
     is_day: z.string(),
   }),
   current: z.object({
@@ -324,11 +328,11 @@ export const weatherSchema = z.object({
   }),
   hourly_units: z.object({
     time: z.string(),
-    temperature_2m: z.string(),
-    apparent_temperature: z.string(),
-    wind_speed_10m: z.string(),
+    temperature_2m: z.literal(temperatureUnits),
+    apparent_temperature: z.literal(temperatureUnits),
+    wind_speed_10m: z.literal(windSpeedUnits),
     relative_humidity_2m: z.string(),
-    precipitation: z.string(),
+    precipitation: z.literal(precipitationUnits),
     weather_code: z.string(),
     is_day: z.string(),
   }),
@@ -344,8 +348,8 @@ export const weatherSchema = z.object({
   }),
   daily_units: z.object({
     time: z.string(),
-    temperature_2m_max: z.string(),
-    temperature_2m_min: z.string(),
+    temperature_2m_max: z.literal(temperatureUnits),
+    temperature_2m_min: z.literal(temperatureUnits),
     weather_code: z.string(),
   }),
   daily: z.object({

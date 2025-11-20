@@ -1,43 +1,87 @@
+import { logger } from "#frontend/shared/app/logging";
+import { clamp, isZero } from "#frontend/shared/utils/number";
+
 type Animation = {
   draw: (progress: number) => void;
   timing: (timeFraction: number) => number;
   duration: number;
-  isInfinite: boolean;
+  delay?: number;
+  isInfinite?: boolean;
 };
 
-export function animate({ draw, timing, duration, isInfinite }: Animation) {
-  if (duration <= 0) {
-    throw Error("Animation duration has to be positive number");
+export function animate({
+  draw,
+  timing,
+  duration,
+  delay = 0,
+  isInfinite = false,
+}: Animation) {
+  if (isZero(duration)) {
+    throw Error("Animation duration is zero");
   }
 
+  let isCancelled = false;
   let start: number | null = null;
-  let requestionAnimationFrameId: number | null = null;
+  let RAF_id: number | null = null;
 
   const animationCallback = (timestamp: number) => {
+    if (isCancelled) {
+      return;
+    }
+
     if (start === null) {
-      start = timestamp;
+      start = timestamp + delay;
     }
 
     const timePassed = timestamp - start;
-    const progress = timing(Math.min(timePassed / duration, 1));
-    draw(progress);
+    const timeFraction = clamp(timePassed / duration, 0, 1);
 
-    if (progress < 1) {
-      requestionAnimationFrameId = requestAnimationFrame(animationCallback);
+    try {
+      if (!(timePassed < 0)) {
+        const progress = timing(timeFraction);
+        draw(progress);
+      }
+    } catch (error) {
+      logger.log("Animation error", error);
+      return;
+    }
+
+    if (timeFraction < 1) {
+      RAF_id = requestAnimationFrame(animationCallback);
     } else if (isInfinite) {
       start = null;
-      requestionAnimationFrameId = requestAnimationFrame(animationCallback);
+      RAF_id = requestAnimationFrame(animationCallback);
     }
   };
 
-  requestionAnimationFrameId = requestAnimationFrame(animationCallback);
+  RAF_id = requestAnimationFrame(animationCallback);
 
   return () => {
-    if (requestionAnimationFrameId !== null) {
-      cancelAnimationFrame(requestionAnimationFrameId);
+    isCancelled = true;
+    if (RAF_id !== null) {
+      cancelAnimationFrame(RAF_id);
     }
   };
 }
+
+export const throttledDraw = (
+  draw: (progress: number) => void,
+  interval: number,
+) => {
+  let last = performance.now();
+
+  return (progress: number) => {
+    const now = performance.now();
+
+    if (now - last < interval) {
+      return;
+    }
+
+    last = now;
+
+    draw(progress);
+  };
+};
 
 export function linear(timeFraction: number) {
   return timeFraction;

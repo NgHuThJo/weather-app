@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   useEffect,
   useImperativeHandle,
+  useRef,
   useState,
   type ChangeEvent,
   type FormEvent,
@@ -19,6 +20,11 @@ import {
   PopoverTrigger,
 } from "#frontend/shared/primitives/popover";
 import { useLocationStore } from "#frontend/shared/store/location";
+import {
+  animate,
+  linear,
+  throttledDraw,
+} from "#frontend/shared/utils/animation";
 import { capitalizeFirstLetter } from "#frontend/shared/utils/string";
 
 type SearchBarProps = {
@@ -40,12 +46,53 @@ export function SearchBar({ handleBookmark, ref }: SearchBarProps) {
       return data.results;
     },
   });
+  const searchBarPlaceholderRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => {
     return (bookmark: string) => {
       setSearchInput(bookmark);
     };
   });
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const placeholder = searchBarPlaceholderRef.current;
+    const placeholderStrings = [
+      "The location can be any city or country...",
+      "Search for a place...",
+    ];
+
+    if (placeholder === null) {
+      return;
+    }
+
+    const throttledDrawFn = throttledDraw((progress) => {
+      placeholder.placeholder = (
+        placeholderStrings[currentIndex] as string
+      ).slice(
+        0,
+        Math.ceil(
+          progress * (placeholderStrings[currentIndex] as string).length,
+        ),
+      );
+
+      if (progress === 1) {
+        currentIndex = (currentIndex + 1) % placeholderStrings.length;
+      }
+    }, 60);
+
+    const clearRAF = animate({
+      draw: throttledDrawFn,
+      duration: 2000,
+      timing: linear,
+      delay: 2000,
+      isInfinite: true,
+    });
+
+    return () => {
+      clearRAF();
+    };
+  }, []);
 
   useEffect(() => {
     if (fetchStatus !== "fetching") {
@@ -105,6 +152,7 @@ export function SearchBar({ handleBookmark, ref }: SearchBarProps) {
               name="locaation"
               value={searchInput}
               onChange={handleInput}
+              ref={searchBarPlaceholderRef}
             />
           </div>
         </PopoverTrigger>

@@ -61,6 +61,8 @@ export function Header() {
   );
   const searchBarRef = useRef<(bookmark: string) => void>(null);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     localStorage.setItem("bookmark", JSON.stringify([...bookmarkList]));
   }, [bookmarkList]);
@@ -129,7 +131,7 @@ export function Header() {
         break;
       }
       case "mph": {
-        setCurrentUnits({ wind_speed: "mph" });
+        setCurrentUnits({ wind_speed: "mp/h" });
         break;
       }
       case "mm": {
@@ -137,7 +139,7 @@ export function Header() {
         break;
       }
       case "in": {
-        setCurrentUnits({ precipitation: "in" });
+        setCurrentUnits({ precipitation: "inch" });
         break;
       }
       default: {
@@ -213,7 +215,7 @@ export function Header() {
                 km/h
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={currentUnits.wind_speed === "mph"}
+                checked={currentUnits.wind_speed === "mp/h"}
                 data-action="mph"
               >
                 mph
@@ -227,7 +229,7 @@ export function Header() {
                 Millimeters (mm)
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={currentUnits.precipitation === "in"}
+                checked={currentUnits.precipitation === "inch"}
                 data-action="in"
               >
                 Inches (in)

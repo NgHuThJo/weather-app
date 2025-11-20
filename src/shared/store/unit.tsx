@@ -5,15 +5,15 @@ type UnitStoreProviderProps = PropsWithChildren;
 type System = "metric" | "imperial";
 type Units = {
   temperature: "°C" | "°F";
-  wind_speed: "km/h" | "mph";
-  precipitation: "mm" | "in";
+  wind_speed: "km/h" | "mp/h";
+  precipitation: "mm" | "inch";
 };
 type ExtractMetric<U> = {
   [K in keyof U]: Extract<U[K], "°C" | "km/h" | "mm">;
 };
 type Metric = ExtractMetric<Units>;
 type ExtractImperial<U> = {
-  [K in keyof U]: Extract<U[K], "°F" | "mph" | "in">;
+  [K in keyof U]: Extract<U[K], "°F" | "mp/h" | "inch">;
 };
 type Imperial = ExtractImperial<Units>;
 
@@ -34,8 +34,8 @@ const metricUnits: Metric = {
 
 const imperialUnits: Imperial = {
   temperature: "°F",
-  wind_speed: "mph",
-  precipitation: "in",
+  wind_speed: "mp/h",
+  precipitation: "inch",
 };
 
 const UnitContext = createContext<StoreApi<UnitStore> | null>(null);

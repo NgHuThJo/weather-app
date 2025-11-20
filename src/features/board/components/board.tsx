@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./board.module.css";
 import { bg_today_large, bg_today_small } from "#frontend/assets/images";
 import { CurrentCard } from "#frontend/features/board/components/current-card";
@@ -36,7 +36,7 @@ export function Board() {
   const unitData =
     currentSystem === "metric" ? weatherData.metric : weatherData.imperial;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!dailyListRef.current || !currentListRef.current) {
       return;
     }
