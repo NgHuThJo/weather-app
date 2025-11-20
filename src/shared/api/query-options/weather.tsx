@@ -1,12 +1,13 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchData } from "#frontend/shared/api/client";
+import { logger } from "#frontend/shared/app/logging";
 import type { ReverseGeocodingResponse } from "#frontend/shared/types/reverse-geocoding";
 import {
   type DailyWeather,
   type HourlyWeather,
   type WeatherData,
   weatherSchema,
-} from "#frontend/shared/types/schema";
+} from "#frontend/shared/types/weather";
 import { assignValue } from "#frontend/shared/utils/object";
 
 export const weatherQueryKeys = {
@@ -84,7 +85,18 @@ export const weatherQueryOptions = {
         const validatedMetricData = weatherSchema.safeParse(metric);
         const validatedImperialData = weatherSchema.safeParse(imperial);
 
-        if (!validatedMetricData.success || !validatedImperialData.success) {
+        if (!validatedMetricData.success) {
+          logger.log(
+            "Metric data has unexpected shape",
+            validatedMetricData.error,
+          );
+          throw new Error("Validation error");
+        }
+        if (!validatedImperialData.success) {
+          logger.log(
+            "Imperial data has unexpected shape",
+            validatedImperialData.error,
+          );
           throw new Error("Validation error");
         }
 

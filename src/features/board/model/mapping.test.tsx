@@ -12,7 +12,7 @@ import {
   dailyWeatherValuesSchema,
   hourlyUnitsSchema,
   hourlyWeatherValuesSchema,
-} from "#frontend/shared/types/schema";
+} from "#frontend/shared/types/weather";
 
 const currentWeatherMockData = zocker(currentWeatherSchema).generate();
 const currentUnitsMockData = zocker(currentUnitsSchema).generate();

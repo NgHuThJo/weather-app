@@ -35,21 +35,23 @@ export function animate({
     if (start === null) {
       start = timestamp + delay;
     } else if (pauseTimeStamp !== null) {
-      // Calculate the point where the paused animation should be resumed before
+      // Calculate the point where the paused animation should resume
       start = timestamp - (pauseTimeStamp - start);
       pauseTimeStamp = null;
     }
 
     const timePassed = timestamp - start;
+    // Normalize time fraction
     const timeFraction = clamp(timePassed / duration, 0, 1);
 
     try {
+      // Prevent drawing while delay runs down, keep previous animation frame on screen
       if (!(timePassed < 0)) {
         const progress = timing(timeFraction);
         draw(progress);
       }
     } catch (error) {
-      logger.log("Animation error", error);
+      logger.log("Error in animation draw function", error);
       return;
     }
 

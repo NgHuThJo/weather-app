@@ -1,32 +1,45 @@
-type LoggerLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
+type LogLevels = {
+  DEBUG: 0;
+  INFO: 1;
+  WARN: 2;
+  ERROR: 3;
+};
+
+const LogLevels: LogLevels = {
+  DEBUG: 0,
+  INFO: 1,
+  WARN: 2,
+  ERROR: 3,
+};
 
 class Logger {
-  #level: LoggerLevel;
+  #level: (typeof LogLevels)[keyof typeof LogLevels];
 
   constructor() {
-    this.#level = "DEBUG";
+    this.#level =
+      process.env.NODE_ENV === "production" ? LogLevels.ERROR : LogLevels.DEBUG;
   }
 
-  public setLevel(level: LoggerLevel) {
+  public setLevel(level: (typeof LogLevels)[keyof typeof LogLevels]) {
     this.#level = level;
   }
 
-  public log(...args: any[]) {
+  public log(message: string, ...args: any[]) {
     switch (this.#level) {
-      case "DEBUG": {
-        console.trace(...args);
+      case LogLevels.DEBUG: {
+        console.debug(`[DEBUG] ${message}`, ...args);
         break;
       }
-      case "INFO": {
-        console.info(...args);
+      case LogLevels.INFO: {
+        console.info(`[INFO] ${message}`, ...args);
         break;
       }
-      case "WARN": {
-        console.warn(...args);
+      case LogLevels.WARN: {
+        console.warn(`[WARN] ${message}`, ...args);
         break;
       }
-      case "ERROR": {
-        console.error(...args);
+      case LogLevels.ERROR: {
+        console.error(`[ERROR] ${message}`, ...args);
         break;
       }
     }

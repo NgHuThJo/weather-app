@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from "#frontend/shared/primitives/popover";
 import { useLocationStore } from "#frontend/shared/store/location";
+
 import {
   animate,
   linear,
@@ -79,20 +80,24 @@ export function SearchBar({ handleBookmark, ref }: SearchBarProps) {
       if (progress === 1) {
         currentIndex = (currentIndex + 1) % placeholderStrings.length;
       }
-    }, 60);
+    }, 30);
 
     const RAF_object = animate({
       draw: throttledDrawFn,
-      duration: 1000,
+      duration: 2000,
       timing: linear,
-      delay: 2000,
+      delay: 1500,
       isInfinite: true,
     });
+
+    if (searchInput) {
+      RAF_object.pause();
+    }
 
     return () => {
       RAF_object.cancel();
     };
-  }, []);
+  }, [searchInput]);
 
   useEffect(() => {
     if (fetchStatus !== "fetching") {
@@ -149,7 +154,7 @@ export function SearchBar({ handleBookmark, ref }: SearchBarProps) {
             <input
               type="text"
               placeholder="Search for a place..."
-              name="locaation"
+              name="location"
               value={searchInput}
               onChange={handleInput}
               ref={searchBarPlaceholderRef}

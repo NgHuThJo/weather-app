@@ -6,7 +6,7 @@ import type {
   DailyWeatherValues,
   HourlyUnits,
   HourlyWeatherValues,
-} from "#frontend/shared/types/schema";
+} from "#frontend/shared/types/weather";
 import { getDayFromDate, getHourFromDate } from "#frontend/shared/utils/intl";
 
 type CurrentWeatherMapper = {

@@ -21,7 +21,7 @@ import type {
   CurrentUnits,
   DailyUnits,
   HourlyUnits,
-} from "#frontend/shared/types/schema";
+} from "#frontend/shared/types/weather";
 
 export function Board() {
   const { latitude, longitude } = useLocationData();

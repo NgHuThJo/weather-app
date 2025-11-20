@@ -1,13 +1,8 @@
 import { test as base, BrowserContext, Page } from "@playwright/test";
 import { zocker } from "zocker";
-import {
-  currentUnitsSchema,
-  currentWeatherSchema,
-  dailyUnitsSchema,
-  dailyWeatherValuesSchema,
-  hourlyUnitsSchema,
-  hourlyWeatherValuesSchema,
-} from "../../src/shared/types/schema";
+import { geocodingSchema } from "../../src/shared/types/geocoding";
+import { reverseGeocodingResponseSchema } from "../../src/shared/types/reverse-geocoding";
+import { weatherSchema } from "../../src/shared/types/weather";
 
 type MockWeatherApi = {
   context: BrowserContext;
@@ -18,25 +13,26 @@ export const test = base.extend<MockWeatherApi>({
   context: async ({ browser }, use) => {
     const context = await browser.newContext();
 
-    await context.route("https://api.open-meteo.com/v1/forecast**", (route) => {
-      route.fulfill({
-        json: {
-          currentWeatherMockData: zocker(currentWeatherSchema).generate(),
-          currentUnitsMockData: zocker(currentUnitsSchema).generate(),
-          dailyWeatherMockData: zocker(dailyWeatherValuesSchema)
-            .supply(dailyWeatherValuesSchema.shape.time, "2025-10-21T00:00:00Z")
-            .generateMany(8),
-          dailyUnitsMockData: zocker(dailyUnitsSchema).generate(),
-          hourlyWeatherMockData: zocker(hourlyWeatherValuesSchema)
-            .supply(
-              hourlyWeatherValuesSchema.shape.time,
-              "2025-10-21T00:00:00Z",
-            )
-            .generateMany(8),
-          hourlyUnitsMockData: zocker(hourlyUnitsSchema).generate(),
-        },
+    await context.route("**api.open-meteo.com/v1/forecast**", (r) => {
+      r.fulfill({
+        json: { ...zocker(weatherSchema).generate() },
       });
     });
+    await context.route("**/geocode/reverse**", (r) =>
+      r.fulfill({
+        json: {
+          ...zocker(reverseGeocodingResponseSchema),
+        },
+      }),
+    );
+    await context.route("**/search**", (r) =>
+      r.fulfill({
+        json: {
+          ...zocker(geocodingSchema),
+        },
+      }),
+    );
+    console.count("in context");
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(context);
@@ -46,6 +42,7 @@ export const test = base.extend<MockWeatherApi>({
   page: async ({ context }, use) => {
     const page = await context.newPage();
 
+    page.on("request", (r) => console.log("REQ:", r.url()));
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(page);
 

@@ -16,7 +16,7 @@ import { Image } from "#frontend/shared/primitives/image";
 import type {
   HourlyUnits,
   HourlyWeatherValues,
-} from "#frontend/shared/types/schema";
+} from "#frontend/shared/types/weather";
 import { getDayFromDate } from "#frontend/shared/utils/intl";
 
 type HourlyBoardProps = {

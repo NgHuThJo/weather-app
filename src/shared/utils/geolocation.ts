@@ -11,15 +11,15 @@ export function getCurrentPosition(
       ((error) => {
         switch (error.code) {
           case error.PERMISSION_DENIED: {
-            logger.log("Permission denied:", error.message);
+            logger.log("Permission denied:", error);
             break;
           }
           case error.POSITION_UNAVAILABLE: {
-            logger.log("Position unavailable:", error.message);
+            logger.log("Position unavailable:", error);
             break;
           }
           case error.TIMEOUT: {
-            logger.log("Request timed out:", error.message);
+            logger.log("Request timed out:", error);
             break;
           }
         }
@@ -32,15 +32,15 @@ export function getCurrentPosition(
     (error) => {
       switch (error.code) {
         case error.PERMISSION_DENIED: {
-          logger.log("Permission denied:", error.message);
+          logger.log("Permission denied:", error);
           break;
         }
         case error.POSITION_UNAVAILABLE: {
-          logger.log("Position unavailable:", error.message);
+          logger.log("Position unavailable:", error);
           break;
         }
         case error.TIMEOUT: {
-          logger.log("Request timed out:", error.message);
+          logger.log("Request timed out:", error);
           break;
         }
       }

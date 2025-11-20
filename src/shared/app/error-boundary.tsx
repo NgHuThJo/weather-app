@@ -23,7 +23,7 @@ export class ErrorBoundary extends Component<
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    logger.log(error, errorInfo);
+    logger.log("Error caught in error boundary", error, errorInfo);
   }
 
   render() {

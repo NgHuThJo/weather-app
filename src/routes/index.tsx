@@ -22,7 +22,11 @@ function Index() {
   useEffect(() => {
     const geoLocationHandler = (position: GeolocationPosition) => {
       const { latitude, longitude } = position.coords;
-      logger.log(latitude, longitude);
+      logger.log(
+        "Latitude and longitude in index route useEffect",
+        latitude,
+        longitude,
+      );
 
       setLocationData(latitude, longitude);
     };

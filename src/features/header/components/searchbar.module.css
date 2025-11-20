@@ -1,3 +1,6 @@
+@keyframes linear {
+}
+
 .layout {
   display: grid;
   gap: 1rem;

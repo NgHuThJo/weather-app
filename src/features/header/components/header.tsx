@@ -73,7 +73,6 @@ export function Header() {
 
   const handleChooseBookmark = (bookmark: string) => {
     if (!searchBarRef.current) {
-      logger.log("Error in bookmark adding");
       return;
     }
 
@@ -102,7 +101,7 @@ export function Header() {
       | null;
 
     if (!action) {
-      logger.log("action target not found");
+      logger.log("Action target in header component not found", action);
       return;
     }
 
@@ -143,7 +142,7 @@ export function Header() {
         break;
       }
       default: {
-        logger.log("Action in dropdown does not match any unit");
+        logger.log("Action in header dropdown does not match any unit", action);
       }
     }
   };
