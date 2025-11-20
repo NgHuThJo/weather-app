@@ -1,5 +1,5 @@
 import { logger } from "#frontend/shared/app/logging";
-import { clamp, isZero } from "#frontend/shared/utils/number";
+import { clamp } from "#frontend/shared/utils/number";
 
 type Animation = {
   draw: (progress: number) => void;
@@ -16,10 +16,8 @@ export function animate({
   delay = 0,
   isInfinite = false,
 }: Animation) {
-  if (isZero(duration)) {
-    throw Error("Animation duration is zero");
-  }
-
+  let isPaused = false;
+  let pauseTimeStamp: number | null;
   let isCancelled = false;
   let start: number | null = null;
   let RAF_id: number | null = null;
@@ -29,8 +27,17 @@ export function animate({
       return;
     }
 
+    if (isPaused) {
+      pauseTimeStamp = pauseTimeStamp ?? timestamp;
+      return;
+    }
+
     if (start === null) {
       start = timestamp + delay;
+    } else if (pauseTimeStamp !== null) {
+      // Calculate the point where the paused animation should be resumed before
+      start = timestamp - (pauseTimeStamp - start);
+      pauseTimeStamp = null;
     }
 
     const timePassed = timestamp - start;
@@ -56,11 +63,23 @@ export function animate({
 
   RAF_id = requestAnimationFrame(animationCallback);
 
-  return () => {
-    isCancelled = true;
-    if (RAF_id !== null) {
-      cancelAnimationFrame(RAF_id);
-    }
+  return {
+    cancel: () => {
+      isCancelled = true;
+      if (RAF_id !== null) {
+        cancelAnimationFrame(RAF_id);
+      }
+    },
+    pause: () => {
+      isPaused = true;
+      if (RAF_id !== null) {
+        cancelAnimationFrame(RAF_id);
+      }
+    },
+    resume: () => {
+      isPaused = false;
+      RAF_id = requestAnimationFrame(animationCallback);
+    },
   };
 }
 

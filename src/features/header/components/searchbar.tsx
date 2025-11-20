@@ -58,7 +58,7 @@ export function SearchBar({ handleBookmark, ref }: SearchBarProps) {
     let currentIndex = 0;
     const placeholder = searchBarPlaceholderRef.current;
     const placeholderStrings = [
-      "The location can be any city or country...",
+      "The place can be any city or country...",
       "Search for a place...",
     ];
 
@@ -81,16 +81,16 @@ export function SearchBar({ handleBookmark, ref }: SearchBarProps) {
       }
     }, 60);
 
-    const clearRAF = animate({
+    const RAF_object = animate({
       draw: throttledDrawFn,
-      duration: 2000,
+      duration: 1000,
       timing: linear,
       delay: 2000,
       isInfinite: true,
     });
 
     return () => {
-      clearRAF();
+      RAF_object.cancel();
     };
   }, []);
 
