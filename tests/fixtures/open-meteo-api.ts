@@ -42,7 +42,7 @@ export const test = base.extend<MockWeatherApi>({
       }),
     );
     await context.route(
-      "https://geocoding-api.open-meteo.com/v1/search**/*",
+      "https://geocoding-api.open-meteo.com/v1/search**",
       (r) =>
         r.fulfill({
           json: {
