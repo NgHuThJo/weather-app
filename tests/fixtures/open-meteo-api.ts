@@ -17,7 +17,6 @@ export const test = base.extend<MockWeatherApi>({
   context: async ({ browser }, use) => {
     const context = await browser.newContext();
 
-    console.count("in context");
     await context.route("https://api.open-meteo.com/v1/forecast**", (r) => {
       r.fulfill({
         json: {
