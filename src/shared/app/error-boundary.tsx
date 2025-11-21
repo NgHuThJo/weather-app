@@ -4,7 +4,7 @@ import {
   type PropsWithChildren,
   type ReactNode,
 } from "react";
-import { logger } from "#frontend/shared/app/logging";
+import { Logger } from "#frontend/shared/app/logging";
 
 type ErrorBoundaryState = {
   hasError: boolean;
@@ -23,7 +23,7 @@ export class ErrorBoundary extends Component<
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    logger.log("Error caught in error boundary", error, errorInfo);
+    Logger.error("Error caught in error boundary", error, errorInfo);
   }
 
   render() {

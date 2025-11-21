@@ -5,6 +5,8 @@ type LogLevels = {
   ERROR: 3;
 };
 
+type LogLevelValues = LogLevels[keyof LogLevels];
+
 const LogLevels: LogLevels = {
   DEBUG: 0,
   INFO: 1,
@@ -12,38 +14,32 @@ const LogLevels: LogLevels = {
   ERROR: 3,
 };
 
-class Logger {
-  #level: (typeof LogLevels)[keyof typeof LogLevels];
+let currentLogLevel: LogLevelValues =
+  process.env.NODE_ENV === "production" ? LogLevels.ERROR : LogLevels.DEBUG;
 
-  constructor() {
-    this.#level =
-      process.env.NODE_ENV === "production" ? LogLevels.ERROR : LogLevels.DEBUG;
+export class Logger {
+  public static setLevel(level: LogLevelValues) {
+    currentLogLevel = level;
   }
 
-  public setLevel(level: (typeof LogLevels)[keyof typeof LogLevels]) {
-    this.#level = level;
+  public static debug(message: string, ...args: any[]) {
+    if (currentLogLevel <= LogLevels.DEBUG) {
+      console.trace(`[DEBUG] ${message}`, ...args);
+    }
   }
-
-  public log(message: string, ...args: any[]) {
-    switch (this.#level) {
-      case LogLevels.DEBUG: {
-        console.debug(`[DEBUG] ${message}`, ...args);
-        break;
-      }
-      case LogLevels.INFO: {
-        console.info(`[INFO] ${message}`, ...args);
-        break;
-      }
-      case LogLevels.WARN: {
-        console.warn(`[WARN] ${message}`, ...args);
-        break;
-      }
-      case LogLevels.ERROR: {
-        console.error(`[ERROR] ${message}`, ...args);
-        break;
-      }
+  public static info(message: string, ...args: any[]) {
+    if (currentLogLevel <= LogLevels.INFO) {
+      console.info(`[INFO] ${message}`, ...args);
+    }
+  }
+  public static warn(message: string, ...args: any[]) {
+    if (currentLogLevel <= LogLevels.WARN) {
+      console.warn(`[WARN] ${message}`, ...args);
+    }
+  }
+  public static error(message: string, ...args: any[]) {
+    if (currentLogLevel <= LogLevels.ERROR) {
+      console.error(`[ERROR] ${message}`, ...args);
     }
   }
 }
-
-export const logger = new Logger();

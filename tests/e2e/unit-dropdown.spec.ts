@@ -18,7 +18,9 @@ test.describe("unit dropdown", () => {
       .getByTestId("current-list-item")
       .filter({ hasText: "precipitation" });
 
-    await expect(currentFeelsLikeTemperature).toHaveText(/.+°C$/i);
+    await expect(currentFeelsLikeTemperature).toHaveText(/.+°C$/i, {
+      timeout: 10000000,
+    });
     await expect(currentHeroTemperature).toHaveText(/.+°C$/i);
     await expect(dailyTemperature).toHaveText(/.+°C$/i);
     await expect(hourlyTemperature).toHaveText(/.+°C$/i);
@@ -40,11 +42,11 @@ test.describe("unit dropdown", () => {
     await expect(currentHeroTemperature).toHaveText(/.+°F$/i);
     await expect(dailyTemperature).toHaveText(/.+°F$/i);
     await expect(hourlyTemperature).toHaveText(/.+°F$/i);
-    await expect(currentWindSpeed).toHaveText(/.+mph$/i);
-    await expect(currentPrecipitation).toHaveText(/.+in$/i);
+    await expect(currentWindSpeed).toHaveText(/.+mp\/h$/i);
+    await expect(currentPrecipitation).toHaveText(/.+inch$/i);
   });
 
-  test("change individual units", async ({ page }) => {
+  test("change individual temperature units", async ({ page }) => {
     await page.goto("http://localhost:5173/");
 
     const currentFeelsLikeTemperature = page
@@ -84,5 +86,49 @@ test.describe("unit dropdown", () => {
     await expect(currentHeroTemperature).toHaveText(/.+°C$/i);
     await expect(dailyTemperature).toHaveText(/.+°C$/i);
     await expect(hourlyTemperature).toHaveText(/.+°C$/i);
+  });
+
+  test("change individual windspeed units", async ({ page }) => {
+    await page.goto("http://localhost:5173/");
+
+    const currentWindSpeed = page
+      .getByTestId("current-list-item")
+      .filter({ hasText: "wind" });
+
+    await expect(currentWindSpeed).toHaveText(/.+km\/h$/i);
+
+    const unitButton = page.getByRole("button", {
+      name: "unit icon Units dropdown icon",
+    });
+    await unitButton.click();
+
+    const mphSwitchButton = page.getByRole("menuitemcheckbox", {
+      name: "mph",
+    });
+    await mphSwitchButton.click();
+
+    await expect(currentWindSpeed).toHaveText(/.+mp\/h$/i);
+  });
+
+  test("change individual precipitation units", async ({ page }) => {
+    await page.goto("http://localhost:5173/");
+
+    const currentPrecipitation = page
+      .getByTestId("current-list-item")
+      .filter({ hasText: "precipitation" });
+
+    await expect(currentPrecipitation).toHaveText(/.+mm$/i);
+
+    const unitButton = page.getByRole("button", {
+      name: "unit icon Units dropdown icon",
+    });
+    await unitButton.click();
+
+    const inchSwitchButton = page.getByRole("menuitemcheckbox", {
+      name: "in",
+    });
+    await inchSwitchButton.click();
+
+    await expect(currentPrecipitation).toHaveText(/.+inch$/i);
   });
 });

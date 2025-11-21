@@ -8,7 +8,7 @@ import {
   icon_retry,
 } from "#frontend/assets/images";
 import { SearchBar } from "#frontend/features/header/components/searchbar";
-import { logger } from "#frontend/shared/app/logging";
+import { Logger } from "#frontend/shared/app/logging";
 import { Button } from "#frontend/shared/primitives/button";
 import {
   DropdownMenu,
@@ -101,7 +101,7 @@ export function Header() {
       | null;
 
     if (!action) {
-      logger.log("Action target in header component not found", action);
+      Logger.debug("Action target in header component not found", action);
       return;
     }
 
@@ -142,7 +142,10 @@ export function Header() {
         break;
       }
       default: {
-        logger.log("Action in header dropdown does not match any unit", action);
+        Logger.debug(
+          "Action in header dropdown does not match any unit",
+          action,
+        );
       }
     }
   };

@@ -1,4 +1,4 @@
-import { logger } from "#frontend/shared/app/logging";
+import { Logger } from "#frontend/shared/app/logging";
 import { clamp } from "#frontend/shared/utils/number";
 
 type Animation = {
@@ -51,7 +51,7 @@ export function animate({
         draw(progress);
       }
     } catch (error) {
-      logger.log("Error in animation draw function", error);
+      Logger.debug("Error in animation draw function", error);
       return;
     }
 

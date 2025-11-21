@@ -71,7 +71,11 @@ export function HourlyBoard({ data, units }: HourlyBoardProps) {
         <h2 className={styles.heading}>Hourly forecast</h2>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant="dropdown" intent="weekday">
+            <Button
+              variant="dropdown"
+              intent="weekday"
+              data-testid="weekday-button"
+            >
               {currentDay} <Image src={icon_dropdown} />
             </Button>
           </DropdownMenuTrigger>

@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchData } from "#frontend/shared/api/client";
-import { logger } from "#frontend/shared/app/logging";
+import { Logger } from "#frontend/shared/app/logging";
 import type { ReverseGeocodingResponse } from "#frontend/shared/types/reverse-geocoding";
 import {
   type DailyWeather,
@@ -86,14 +86,14 @@ export const weatherQueryOptions = {
         const validatedImperialData = weatherSchema.safeParse(imperial);
 
         if (!validatedMetricData.success) {
-          logger.log(
+          Logger.error(
             "Metric data has unexpected shape",
             validatedMetricData.error,
           );
           throw new Error("Validation error");
         }
         if (!validatedImperialData.success) {
-          logger.log(
+          Logger.error(
             "Imperial data has unexpected shape",
             validatedImperialData.error,
           );
@@ -174,11 +174,16 @@ function transformDailyData(obj: DailyWeather) {
 
     for (const key of Object.keys(obj) as (keyof DailyWeather)[]) {
       if (!(i in obj[key]) || obj[key][i] === undefined) {
-        throw new Error("Index does not exist");
+        Logger.debug("Index key does not exist", {
+          obj,
+          key,
+        });
+        throw new Error("Indexed key does not exist");
       }
 
       assignValue(temp, key, obj[key][i]);
     }
+
     return temp;
   });
 

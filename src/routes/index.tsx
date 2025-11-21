@@ -6,7 +6,7 @@ import { BoardPlaceholder } from "#frontend/features/board/components/placeholde
 import { Header } from "#frontend/features/header/components/header";
 import { NotFound } from "#frontend/features/not-found/components/not-found";
 import { ErrorBoundary } from "#frontend/shared/app/error-boundary";
-import { logger } from "#frontend/shared/app/logging";
+import { Logger } from "#frontend/shared/app/logging";
 import { useLocationStore } from "#frontend/shared/store/location";
 import { UnitStoreProvider } from "#frontend/shared/store/unit";
 import { getCurrentPosition } from "#frontend/shared/utils/geolocation";
@@ -22,7 +22,7 @@ function Index() {
   useEffect(() => {
     const geoLocationHandler = (position: GeolocationPosition) => {
       const { latitude, longitude } = position.coords;
-      logger.log(
+      Logger.info(
         "Latitude and longitude in index route useEffect",
         latitude,
         longitude,

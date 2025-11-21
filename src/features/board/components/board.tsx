@@ -134,6 +134,7 @@ export function Board() {
             <div className={styles["image-left"]}>
               <h2
                 className={styles["image-heading"]}
+                data-testid="current-hero-city-and-country-name"
               >{`${unitData.city}, ${unitData.country}`}</h2>
               <p
                 className={styles["image-day"]}

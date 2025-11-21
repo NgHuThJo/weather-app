@@ -7,8 +7,8 @@ export const geocodingSchema = z.object({
         .looseObject({
           id: z.number(),
           name: z.string(),
-          latitude: z.number(),
-          longitude: z.number(),
+          latitude: z.number().gte(-90).lte(90),
+          longitude: z.number().gte(-180).lte(180),
           elevation: z.number(),
           feature_code: z.string().optional(),
           country_code: z.string().optional(),
