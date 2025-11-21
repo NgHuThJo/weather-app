@@ -1,10 +1,12 @@
 name: Deploy Weather App to GitHub Pages
 
 on:
-  workflow_run:
-    workflows: ["Playwright Tests"]
-    types:
-      - completed
+  push:
+    branches: ["main"]
+  # workflow_run:
+  #   workflows: ["Playwright Tests"]
+  #   types:
+  #     - completed
 
 permissions:
   contents: read
@@ -17,6 +19,9 @@ concurrency:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

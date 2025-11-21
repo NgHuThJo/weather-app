@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { fetchData } from "#frontend/shared/api/client";
+import { Logger } from "#frontend/shared/app/logging";
 import { geocodingSchema } from "#frontend/shared/types/geocoding";
 
 const geocodingParams = {
@@ -33,6 +34,7 @@ export const autocompleteOptions = {
         const validatedData = geocodingSchema.safeParse(data);
 
         if (!validatedData.success) {
+          Logger.debug("Autocomplete error", validatedData.error);
           throw new Error("Geocoding api schema does not match expectations");
         }
 

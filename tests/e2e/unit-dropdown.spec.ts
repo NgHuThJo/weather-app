@@ -18,9 +18,7 @@ test.describe("unit dropdown", () => {
       .getByTestId("current-list-item")
       .filter({ hasText: "precipitation" });
 
-    await expect(currentFeelsLikeTemperature).toHaveText(/.+°C$/i, {
-      timeout: 10000000,
-    });
+    await expect(currentFeelsLikeTemperature).toHaveText(/.+°C$/i);
     await expect(currentHeroTemperature).toHaveText(/.+°C$/i);
     await expect(dailyTemperature).toHaveText(/.+°C$/i);
     await expect(hourlyTemperature).toHaveText(/.+°C$/i);
