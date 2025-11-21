@@ -1,9 +1,6 @@
 name: Deploy Weather App to GitHub Pages
 
 on:
-  push:
-    branches: [main]
-  pull_request:
   workflow_run:
     workflows: ["Playwright Tests"]
     types:

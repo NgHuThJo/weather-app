@@ -13,7 +13,6 @@ export default defineConfig({
     react(),
     // ...,
   ],
-  base: "/weather-app/",
   resolve: {
     alias: {
       "#frontend": path.resolve(__dirname, "src"),
