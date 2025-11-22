@@ -31,9 +31,7 @@ function Index() {
       setLocationData(latitude, longitude);
     };
 
-    const watchObject = getCurrentPosition(geoLocationHandler, undefined, {
-      enableHighAccuracy: true,
-    });
+    const watchObject = getCurrentPosition(geoLocationHandler, undefined);
 
     return () => {
       watchObject.clearWatch();
