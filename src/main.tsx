@@ -49,6 +49,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       throwOnError: true,
+      refetchIntervalInBackground: false,
     },
   },
   queryCache: new QueryCache({
