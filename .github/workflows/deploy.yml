@@ -39,6 +39,13 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+        env:
+          VITE_METEO_FORECAST_BASE_URL: ${{ secrets.VITE_METEO_FORECAST_BASE_URL }}
+          VITE_METEO_GEOCODING_BASE_URL: ${{ secrets.VITE_METEO_GEOCODING_BASE_URL }}
+          VITE_BASE_LATITUDE: ${{ secrets.VITE_BASE_LATITUDE }}
+          VITE_BASE_LONGITUDE: ${{ secrets.VITE_BASE_LONGITUDE }}
+          VITE_GEOAPIFY_REVERSE_GEOCODING_BASE_URL: ${{ secrets.VITE_GEOAPIFY_REVERSE_GEOCODING_BASE_URL }}
+          VITE_GEOAPIFY_API_KEY: ${{ secrets.VITE_GEOAPIFY_API_KEY }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
