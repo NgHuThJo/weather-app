@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import styles from "./index.module.css";
 import { Board } from "#frontend/features/board/components/board";
 import { BoardPlaceholder } from "#frontend/features/board/components/placeholder";
@@ -18,6 +18,13 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [errorBoundaryKey, setErrorBoundaryKey] = useState(0);
   const setLocationData = useLocationStore((state) => state.setLocationData);
+  const lastPositionsRef = useRef<{
+    latitude: number;
+    longitude: number;
+  }>({
+    latitude: Infinity,
+    longitude: Infinity,
+  });
 
   useEffect(() => {
     const geoLocationHandler = (position: GeolocationPosition) => {
@@ -28,7 +35,15 @@ function Index() {
         longitude,
       );
 
-      setLocationData(latitude, longitude);
+      if (
+        latitude !== lastPositionsRef.current.latitude ||
+        longitude !== lastPositionsRef.current.longitude
+      ) {
+        setLocationData(latitude, longitude);
+      }
+
+      lastPositionsRef.current.latitude = latitude;
+      lastPositionsRef.current.longitude = longitude;
     };
 
     const watchObject = getCurrentPosition(geoLocationHandler, undefined);
