@@ -1,6 +1,5 @@
 export { default as bg_today_large } from "./bg-today-large.svg";
 export { default as bg_today_small } from "./bg-today-small.svg";
-export { default as favicon_32x32 } from "./favicon-32x32.png";
 export { default as icon_checkmark } from "./icon-checkmark.svg";
 export { default as icon_drizzle } from "./icon-drizzle.webp";
 export { default as icon_dropdown } from "./icon-dropdown.svg";
@@ -12,6 +11,7 @@ export { default as icon_partly_cloudy } from "./icon-partly-cloudy.webp";
 export { default as icon_rain } from "./icon-rain.webp";
 export { default as icon_retry } from "./icon-retry.svg";
 export { default as icon_search } from "./icon-search.svg";
+export { default as icon_close } from "./icon-close.svg";
 export { default as icon_snow } from "./icon-snow.webp";
 export { default as icon_storm } from "./icon-storm.webp";
 export { default as icon_sunny } from "./icon-sunny.webp";

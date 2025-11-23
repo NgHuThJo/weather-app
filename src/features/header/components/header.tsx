@@ -5,7 +5,7 @@ import {
   logo,
   icon_units,
   icon_dropdown,
-  icon_retry,
+  icon_close,
 } from "#frontend/assets/images";
 import { SearchBar } from "#frontend/features/header/components/searchbar";
 import { Logger } from "#frontend/shared/app/logging";
@@ -171,7 +171,7 @@ export function Header() {
                         {bookmark}
                       </Button>
                       <Button onClick={() => handleDeleteBookmark(bookmark)}>
-                        <Image src={icon_retry}></Image>
+                        <Image src={icon_close} className="icon-xsm"></Image>
                       </Button>
                     </li>
                   ))
